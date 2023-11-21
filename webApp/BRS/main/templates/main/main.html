@@ -1,0 +1,15 @@
+{% extends 'main/layout.html' %}
+
+{% block title %}
+    hello
+{% endblock %}
+
+{% block content %}
+    <h1>{{ title }}</h1>
+    <p>Lets go</p>
+    {% for el in values %}
+        {% if el > 5 %}
+            <p>{{ el }}</p>
+        {% endif %}
+    {% endfor %}
+{% endblock %}
