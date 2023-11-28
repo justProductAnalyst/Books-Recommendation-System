@@ -15,13 +15,16 @@ class User(models.Model):
 
 
 class Book(models.Model):
-    isbn = models.IntegerField('ISBN')
+    isbn = models.CharField('ISBN', max_length=100)
     title = models.CharField('Title', max_length=100)
-    # image_s = models.ImageField('image_s')
-    # image_m = models.ImageField('image_m')
-    # image_l = models.ImageField('image_l')
-    status = models.CharField('Status', max_length=200)
+    image_s = models.ImageField('image_s',
+                                default='E:/Books-Recommendation-System/webApp/main/static/main/img/kapibara.jpg')
+    image_m = models.ImageField('image_m',
+                                default='E:/Books-Recommendation-System/webApp/main/static/main/img/kapibara.jpg')
+    image_l = models.ImageField('image_l',
+                                default='E:/Books-Recommendation-System/webApp/main/static/main/img/kapibara.jpg')
+    # status = models.CharField('Status', max_length=200)
     genre = models.CharField('Genre', max_length=100)
 
     def __str__(self):
-        return self.title
+        return str(self.isbn)
