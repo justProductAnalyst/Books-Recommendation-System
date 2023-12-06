@@ -172,5 +172,42 @@
         </div>
     </div>
 </div>
+<script>
+    function updateCarousel(books) {
+        let carousel = document.querySelector('.carousel');
+        carousel.innerHTML = '';
+
+        books.forEach(book => {
+            let bookDiv = document.createElement('div');
+            bookDiv.className = 'book';
+
+            let rectangleDiv = document.createElement('div');
+            rectangleDiv.className = 'rectangle';
+
+            let img = document.createElement('img');
+            // Assuming image_l contains the complete URL
+            img.src = book['image_l'].substring(1); // Adjust based on actual format
+            rectangleDiv.appendChild(img);
+
+            let titleDiv = document.createElement('div');
+            titleDiv.className = 'text-wrapper-4';
+            titleDiv.textContent = book['title'];
+
+            bookDiv.appendChild(rectangleDiv);
+            bookDiv.appendChild(titleDiv);
+
+            carousel.appendChild(bookDiv);
+        });
+    }
+
+    function getRecommendations(userId) {
+        fetch('/api/recommendations/' + userId)
+        .then(response => response.json())
+        .then(books => updateCarousel(books))
+        .catch(error => console.error('Error:', error));
+    }
+
+    getRecommendations('123');
+</script>
 </body>
 </html>
