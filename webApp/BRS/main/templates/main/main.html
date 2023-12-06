@@ -33,35 +33,35 @@
             <div class="text-wrapper-3">Recommendations</div>
             <div class="carousel">
                 <div class="book">
-                    <div class="rectangle"></div>
+                    <div class="rectangle-3"></div>
                     <div class="text-wrapper-4">Book Title</div>
                 </div>
                 <div class="book">
-                    <div class="rectangle"></div>
+                    <div class="rectangle-3"></div>
                     <div class="text-wrapper-4">Book Title</div>
                 </div>
                 <div class="book">
-                    <div class="rectangle"></div>
+                    <div class="rectangle-3"></div>
                     <div class="text-wrapper-4">Book Title</div>
                 </div>
                 <div class="book">
-                    <div class="rectangle"></div>
+                    <div class="rectangle-3"></div>
                     <div class="text-wrapper-4">Book Title</div>
                 </div>
                 <div class="book">
-                    <div class="rectangle"></div>
+                    <div class="rectangle-3"></div>
                     <div class="text-wrapper-4">Book Title</div>
                 </div>
                 <div class="book">
-                    <div class="rectangle"></div>
+                    <div class="rectangle-3"></div>
                     <div class="text-wrapper-4">Book Title</div>
                 </div>
                 <div class="book">
-                    <div class="rectangle"></div>
+                    <div class="rectangle-3"></div>
                     <div class="text-wrapper-4">Book Title</div>
                 </div>
                 <div class="book">
-                    <div class="rectangle"></div>
+                    <div class="rectangle-3"></div>
                     <div class="text-wrapper-4">Book Title</div>
                 </div>
                 <div class="frame">
@@ -182,11 +182,13 @@
             bookDiv.className = 'book';
 
             let rectangleDiv = document.createElement('div');
-            rectangleDiv.className = 'rectangle';
+            rectangleDiv.className = 'rectangle-3';
 
             let img = document.createElement('img');
-            // Assuming image_l contains the complete URL
-            img.src = book['image_l'].substring(1); // Adjust based on actual format
+            img.className = 'book-img'
+            img.src = decodeURIComponent(book['image_l'].substring(1)).replace('http:/', 'http://');
+            console.log(decodeURIComponent(book['image_l'].substring(1)));
+            console.log(img.src);
             rectangleDiv.appendChild(img);
 
             let titleDiv = document.createElement('div');
@@ -198,6 +200,17 @@
 
             carousel.appendChild(bookDiv);
         });
+        carousel.innerHTML = carousel.innerHTML + '\
+        <div class="frame"> \
+            <div class="group-wrapper"> \
+            <div class="overlap-group-wrapper"> \
+            <div class="overlap-group-2"> \
+                <img class="line" src="{% static "main/assets/Line%201.svg" %}"/> <img class="line-2" src="{% static "main/assets/Line%202.svg" %}"/> \
+            </div> \
+            </div> \
+            </div> \
+            <div class="text-wrapper-5">1</div> \
+        </div>';
     }
 
     function getRecommendations(userId) {

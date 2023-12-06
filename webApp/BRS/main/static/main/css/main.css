@@ -198,15 +198,14 @@ body {
 
 .main-screen-logged .rectangle {
     position: relative;
-    width: 6.41781rem;
-    height: 8.6875rem;
-    flex-shrink: 0;
+    width: 6.91781rem;
+    height: 9.0875rem;    flex-shrink: 0;
     background-color: #deb496;
 }
 
 .main-screen-logged .text-wrapper-4 {
     position: relative;
-    width: 4.78188rem;
+/*    width: 4.78188rem;*/
     font-family: "Inter-Regular", Helvetica;
     font-weight: 400;
     color: #191919;
@@ -231,9 +230,8 @@ body {
     position: relative;
     background-color: #eeeeee;
     border-radius: 10px;
-    width: 6.41781rem;
-    height: 8.6875rem;
-    flex-shrink: 0;
+    width: 6.91781rem;
+    height: 9.0875rem;    flex-shrink: 0;
 }
 
 .main-screen-logged .overlap-group-wrapper {
@@ -272,7 +270,7 @@ body {
     letter-spacing: 0;
     line-height: normal;
     position: relative;
-    width: 4.78188rem;
+/*    width: 4.78188rem;*/
     font-family: "Inter-Regular", Helvetica;
     font-weight: 400;
     color: #fcfcfc;
@@ -283,7 +281,19 @@ body {
 .main-screen-logged .rectangle-2 {
     position: relative;
     background-color: #b2774c;
-    width: 6.41781rem;
-    height: 8.6875rem;
-    flex-shrink: 0;
+    width: 6.91781rem;
+    height: 9.0875rem;    flex-shrink: 0;
+}
+
+.main-screen-logged .rectangle-3 {
+    position: relative;
+    background-color: #FCFCFC;
+    width: 6.91781rem;
+    height: 9.0875rem;    flex-shrink: 0;
+}
+
+.main-screen-logged .book-img {
+    position: relative;
+    width: 6.91781rem;
+    height: 9.0875rem;    flex-shrink: 0;
 }
