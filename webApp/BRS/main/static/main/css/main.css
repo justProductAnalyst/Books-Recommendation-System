@@ -150,7 +150,7 @@ body {
     flex-direction: column;
     position: relative;
     height: 56.6875rem;
-    gap: 1.875rem;
+    gap: 4.875rem;
 }
 
 .main-screen-logged .div-2 {
@@ -159,7 +159,7 @@ body {
     align-items: flex-start;
     position: relative;
     height: 17.1875rem;
-    gap: 1.25rem;
+    gap: 1.75rem;
     flex-shrink: 0;
 }
 
@@ -189,7 +189,7 @@ body {
     display: inline-flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center;
+/*    justify-content: center;*/
     position: relative;
     flex: 0 0 auto;
     height: 12.5rem;
@@ -205,7 +205,7 @@ body {
 
 .main-screen-logged .text-wrapper-4 {
     position: relative;
-/*    width: 4.78188rem;*/
+    width: 4.78188rem;
     font-family: "Inter-Regular", Helvetica;
     font-weight: 400;
     color: #191919;
@@ -219,7 +219,7 @@ body {
     display: inline-flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center;
+/*    justify-content: center;*/
     position: relative;
     flex: 0 0 auto;
     height: 12.5rem;
