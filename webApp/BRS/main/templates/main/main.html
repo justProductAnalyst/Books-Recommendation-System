@@ -16,22 +16,38 @@
                 </div>
             </div>
             <div class="pages">
-                <div class="div">Recommended</div>
-                <div class="div">Categories</div>
-                <div class="div">Popular</div>
+                <div class="div"><a href="/{{ user_id }}">Recommended</a></div>
+                <div class="div"><a href="/{{ user_id }}/history">Reading History</a></div>
+                <div class="div"></div>
             </div>
         </div>
         <div class="login-button">
             <div class="overlap">
                 <div class="group"><img class="user" src="{% static 'main/assets/user%201.svg' %}"/></div>
-                <div class="text-wrapper-2">Log in</div>
+                <div class="text-wrapper-2">
+                    {% if user_id %}
+                        {{ user_id }}
+                    {% else %}
+                        Log in
+                    {% endif %}
+                </div>
             </div>
         </div>
     </header>
     <div class="main">
         <div class="div-2">
-            <div class="text-wrapper-3">Recommendations</div>
-            <div class="carousel">
+            <div class="text-wrapper-3">Recommendations for you,
+            {% if user_id %}
+                {{ user_id }}
+            {% else %}
+                Log in
+            {% endif %}
+            </div>
+            <div class="carousel" id="Recommendations">
+                <div class="book">
+                    <div class="rectangle-3"></div>
+                    <div class="text-wrapper-4">Book Title</div>
+                </div>
                 <div class="book">
                     <div class="rectangle-3"></div>
                     <div class="text-wrapper-4">Book Title</div>
@@ -82,7 +98,7 @@
         </div>
         <div class="div-2">
             <div class="text-wrapper-3">Popular</div>
-            <div class="carousel">
+            <div class="carousel" id="Popular">
                 <div class="book">
                     <div class="rectangle"></div>
                     <div class="text-wrapper-4">Book Title</div>
@@ -113,29 +129,6 @@
                 </div>
                 <div class="book">
                     <div class="rectangle"></div>
-                    <div class="text-wrapper-4">Book Title</div>
-                </div>
-                <div class="book">
-                    <div class="rectangle"></div>
-                    <div class="text-wrapper-4">Book Title</div>
-                </div>
-                <div class="frame">
-                    <div class="group-wrapper">
-                        <div class="overlap-group-wrapper">
-                            <div class="overlap-group-2">
-                                <img class="line" src="{% static 'main/assets/Line%201.svg' %}"/> <img class="line-2" src="{% static 'main/assets/Line%202.svg' %}"/>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="text-wrapper-5">Text</div>
-                </div>
-            </div>
-        </div>
-        <div class="div-2">
-            <div class="text-wrapper-3">Detectives</div>
-            <div class="carousel">
-                <div class="book">
-                    <div class="rectangle-2"></div>
                     <div class="text-wrapper-4">Book Title</div>
                 </div>
                 <div class="book">
@@ -143,30 +136,6 @@
                     <div class="text-wrapper-4">Book Title</div>
                 </div>
                 <div class="book">
-                    <div class="rectangle-2"></div>
-                    <div class="text-wrapper-4">Book Title</div>
-                </div>
-                <div class="book">
-                    <div class="rectangle-2"></div>
-                    <div class="text-wrapper-4">Book Title</div>
-                </div>
-                <div class="book">
-                    <div class="rectangle-2"></div>
-                    <div class="text-wrapper-4">Book Title</div>
-                </div>
-                <div class="book">
-                    <div class="rectangle-2"></div>
-                    <div class="text-wrapper-4">Book Title</div>
-                </div>
-                <div class="book">
-                    <div class="rectangle-2"></div>
-                    <div class="text-wrapper-4">Book Title</div>
-                </div>
-                <div class="book">
-                    <div class="rectangle-2"></div>
-                    <div class="text-wrapper-4">Book Title</div>
-                </div>
-                 <div class="book">
                     <div class="rectangle-2"></div>
                     <div class="text-wrapper-4">Book Title</div>
                 </div>
@@ -185,8 +154,8 @@
     </div>
 </div>
 <script>
-    function updateCarousel(books) {
-        let carousel = document.querySelector('.carousel');
+    function updateCarousel(books, id) {
+        let carousel = document.getElementById(id);
         carousel.innerHTML = '';
 
         books.forEach(book => {
@@ -228,11 +197,20 @@
     function getRecommendations(userId) {
         fetch('/api/recommendations/' + userId)
         .then(response => response.json())
-        .then(books => updateCarousel(books))
+        .then(books => updateCarousel(books, "Recommendations"))
         .catch(error => console.error('Error:', error));
     }
 
-    getRecommendations(132392);
+    function getPopularBooks() {
+        fetch('/api/popular/')
+        .then(response => response.json())
+        .then(books => updateCarousel(books, "Popular"))
+        .catch(error => console.error('Error:', error));
+    }
+
+    var userId = "{{ user_id }}";
+    getRecommendations(userId);
+    getPopularBooks();
 </script>
 </body>
 </html>

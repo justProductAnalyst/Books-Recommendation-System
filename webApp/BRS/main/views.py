@@ -3,14 +3,14 @@ from django.http import HttpResponse
 # Create your views here.
 
 
-def index(request):
-    #можем передавать строки, словари, списки
-    data = {
-        'title': 'main!!',
-        'values': [1, 2, 3, 4, 5, 6, 8, 9, 10]
-    }
+def index(request, user_id=None):
+
     # путь прописываем как будто мы в templates
-    return render(request, "main/main.html", data)
+    return render(request, "main/main.html", {'user_id': user_id})
+
+def history(request, user_id=None):
+    # путь прописываем как будто мы в templates
+    return render(request, "main/user_history.html", {'user_id': user_id})
 
 
 def about(request):

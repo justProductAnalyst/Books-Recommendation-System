@@ -1,0 +1,91 @@
+{% load static %} <!-- Подключаем папку static -->
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>User's Reading History</title>
+    <link rel="stylesheet" href="{% static 'main/css/main.css' %}"/>
+</head>
+<body>
+ <div class="main-screen-logged">
+    <header class="header">
+        <div class="logo-and-pages">
+            <div class="logo">
+                <div class="overlap-group">
+                    <img class="img" src="{% static 'main/assets/logo.png' %}"/>
+                    <div class="text-wrapper">Books Recommendation System</div>
+                </div>
+            </div>
+            <div class="pages">
+                <div class="div"><a href="/{{ user_id }}">Recommended</a></div>
+                <div class="div"><a href="/{{ user_id }}/history">Reading History</a></div>
+                <div class="div"></div>
+            </div>
+        </div>
+        <div class="login-button">
+            <div class="overlap">
+                <div class="group"><img class="user" src="{% static 'main/assets/user%201.svg' %}"/></div>
+                <div class="text-wrapper-2">
+                    {% if user_id %}
+                        {{ user_id }}
+                    {% else %}
+                        Log in
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </header>
+    <div class="div-2">
+            <div class="text-wrapper-3">Reading History of user 
+            {% if user_id %}
+                {{ user_id }}
+            {% else %}
+                Log in
+            {% endif %}
+            </div>
+            <div class="carousel" id="books">
+            </div>
+    </div>
+    </div>
+    <script>
+    function updateCarousel(books) {
+        let carousel = document.querySelector('.carousel');
+        carousel.innerHTML = '';
+
+        books.forEach(book => {
+            let bookDiv = document.createElement('div');
+            bookDiv.className = 'book';
+
+            let rectangleDiv = document.createElement('div');
+            rectangleDiv.className = 'rectangle-3';
+
+            let img = document.createElement('img');
+            img.className = 'book-img'
+            img.src = decodeURIComponent(book['image_l'].substring(1)).replace('http:/', 'http://');
+            console.log(decodeURIComponent(book['image_l'].substring(1)));
+            console.log(img.src);
+            rectangleDiv.appendChild(img);
+
+            let titleDiv = document.createElement('div');
+            titleDiv.className = 'text-wrapper-4';
+            titleDiv.textContent = book['title'];
+
+            bookDiv.appendChild(rectangleDiv);
+            bookDiv.appendChild(titleDiv);
+
+            carousel.appendChild(bookDiv);
+        });
+    }
+    document.addEventListener('DOMContentLoaded', function() {
+        const pathArray = window.location.pathname.split('/');
+        const userId = pathArray[1];
+
+        fetch(`/api/history/${userId}`)
+        .then(response => response.json())
+        .then(books => updateCarousel(books))
+        .catch(error => console.error('Error:', error));
+    });
+</script>
+</body>
+
+</html>

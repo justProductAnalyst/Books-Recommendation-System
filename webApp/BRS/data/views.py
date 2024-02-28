@@ -30,3 +30,17 @@ def api_get_recommendations(request, user_id):
     raw = rec_sys.get_recommendations(user_id, n=10)
     recommendations = [get_book_info_by_isbn(isbn) for isbn in raw]
     return Response(recommendations)  # Возвращаем сериализованные данные в ответе на запрос
+
+
+@api_view(['GET'])
+def api_get_user_history(request, user_id):
+    raw = rec_sys.get_user_history(user_id, n=10)
+    user_history = [get_book_info_by_isbn(isbn) for isbn in raw]
+    return Response(user_history)  # Возвращаем сериализованные данные в ответе на запрос
+
+
+@api_view(['GET'])
+def api_get_popular_books(request):
+    raw = rec_sys.get_popular_books(n=10)
+    user_history = [get_book_info_by_isbn(isbn) for isbn in raw]
+    return Response(user_history)  # Возвращаем сериализованные данные в ответе на запрос

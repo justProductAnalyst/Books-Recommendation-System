@@ -1,0 +1,53 @@
+{% load static %} <!-- Подключаем папку static -->
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" href="globals.css"/>
+    <link rel="stylesheet" href="{% static 'main/css/main.css' %}"/>
+</head>
+<body>
+<div class="main-screen-logged">
+    <header class="header">
+        <div class="logo-and-pages">
+            <div class="logo">
+                <div class="overlap-group">
+                    <img class="img" src="{% static 'main/assets/logo.png' %}"/>
+                    <div class="text-wrapper">Books Recommendation System</div>
+                </div>
+            </div>
+            <div class="pages">
+                <div class="div"><a href="/{{ user_id }}">Recommended</a></div>
+                <div class="div"><a href="/{{ user_id }}/history">Reading History</a></div>
+                <div class="div"></div>
+            </div>
+        </div>
+        <div class="login-button">
+            <div class="overlap">
+                <div class="group"><img class="user" src="{% static 'main/assets/user%201.svg' %}"/></div>
+                <div class="text-wrapper-2">
+                    {% if user_id %}
+                        {{ user_id }}
+                    {% else %}
+                        Log in
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </header>
+</div>
+<script>
+    function updateBookInfo(bookInfo) {
+    }
+
+    function getBookInfo(isbn) {
+        fetch('/api/book/' + isbn)
+        .then(response => response.json())
+        .then(bookInfo => updateBookInfo(bookInfo))
+        .catch(error => console.error('Error:', error));
+    }
+
+    var userId = "{{ user_id }}";
+    getBookInfo();
+</script>
+</body>
+</html>

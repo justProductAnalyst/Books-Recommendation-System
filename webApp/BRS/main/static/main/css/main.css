@@ -109,13 +109,18 @@ body {
     position: relative;
     border-radius: 0.625rem;
     background: #CDD7AC;
+    gap: 1rem;
+    display: flex;
+    /* justify-content: center; */
+    /* flex-direction: column; */
+    align-items: center;
 }
 
 .main-screen-logged .group {
     width: 3.125rem;
     height: 3.125rem;
     flex-shrink: 0;
-    position: absolute;
+    position: relative;
     top: 0;
     left: 0;
     border-radius: 0.625rem;
@@ -150,7 +155,7 @@ body {
     flex-direction: column;
     position: relative;
     height: 56.6875rem;
-    gap: 4.875rem;
+    gap: 5.875rem;
 }
 
 .main-screen-logged .div-2 {
@@ -199,8 +204,9 @@ body {
 .main-screen-logged .rectangle {
     position: relative;
     width: 6.91781rem;
-    height: 9.0875rem;    flex-shrink: 0;
-    background-color: #deb496;
+    height: 9.0875rem;
+    flex-shrink: 0;
+    background-color: #eeeeee;
 }
 
 .main-screen-logged .text-wrapper-4 {
@@ -280,14 +286,14 @@ body {
 
 .main-screen-logged .rectangle-2 {
     position: relative;
-    background-color: #b2774c;
+    background-color: #eeeeee;
     width: 6.91781rem;
     height: 9.0875rem;    flex-shrink: 0;
 }
 
 .main-screen-logged .rectangle-3 {
     position: relative;
-    background-color: #FCFCFC;
+    background-color: #eeeeee;
     width: 6.91781rem;
     height: 9.0875rem;    flex-shrink: 0;
 }
@@ -296,4 +302,10 @@ body {
     position: relative;
     width: 6.91781rem;
     height: 9.0875rem;    flex-shrink: 0;
+}
+
+.main-screen-logged .header .logo-and-pages .pages a {
+    color: #000000;
+    cursor: pointer;
+    text-decoration: underline;
 }
