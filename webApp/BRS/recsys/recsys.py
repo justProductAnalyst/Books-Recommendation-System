@@ -1,14 +1,16 @@
-from catboost import CatBoostRegressor
+import os
+
 import pandas as pd
+from catboost import CatBoostRegressor
 
 
 class RecSys:
     def __init__(self):
-        self.books_data = pd.read_csv(r'webApp\BRS\recsys\static\books_data.csv')
-        self.test_data  = pd.read_csv(r'webApp\BRS\recsys\static\merged_test_X.csv')
-        self.history_data = pd.read_csv(r'webApp\BRS\recsys\static\filtered_data.csv')
+        self.books_data = pd.read_csv(os.path.join(os.path.dirname(__file__), 'static', 'books_data.csv'))
+        self.test_data  = pd.read_csv(os.path.join(os.path.dirname(__file__), 'static', 'merged_test_X.csv'))
+        self.history_data = pd.read_csv(os.path.join(os.path.dirname(__file__), 'static', 'filtered_data.csv'))
         self.second_level_model = CatBoostRegressor()
-        self.second_level_model.load_model(r'webApp\BRS\recsys\static\catboost_model')
+        self.second_level_model.load_model(os.path.join(os.path.dirname(__file__), 'static', 'catboost_model'))
         
     def get_recommendations(self, user_id, n=10):
         predictions = self.second_level_model.predict(self.test_data).tolist()

@@ -1,22 +1,27 @@
-from django.http import HttpResponse
-import csv
-from .models import Book
-from rest_framework.response import Response
 from rest_framework.decorators import api_view
-from django.shortcuts import render
 from rest_framework.response import Response
-from .serializer import DataSerializer
-from collections import OrderedDict
-from recsys import RecSys
 
+from .models import Book
+from .serializer import DataSerializer
+import sys
+import os
+
+# Получаем абсолютный путь к папке 'BRS'
+BRS_PATH = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', 'BRS'))
+
+# Добавляем путь к папке 'BRS' в sys.path
+sys.path.append(BRS_PATH)
+
+# Теперь можно импортировать модуль 'recsys'
+from recsys import RecSys
 
 rec_sys = RecSys()
 
 
 def get_book_info_by_isbn(isbn):
     book = Book.objects.filter(isbn=isbn)  # Фильтруем записи по isbn
-    serializer = DataSerializer(book, many=True)  # Используем сериализатор для преобразования данных
-    return serializer.data[0]
+    serialiser = DataSerializer(book, many=True)  # Используем сериализатор для преобразования данных
+    return serialiser.data[0]
 
 
 @api_view(['GET'])
