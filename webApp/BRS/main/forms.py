@@ -1,5 +1,5 @@
 from django import forms
-from data.models import User
+from django.contrib.auth.models import User
 
 
 class RegistrationForm(forms.ModelForm):
@@ -7,4 +7,4 @@ class RegistrationForm(forms.ModelForm):
 
     class Meta:
         model = User
-        fields = ['user_id', 'location', 'age', 'password']
+        fields = ['username', 'email', 'password']

@@ -23,14 +23,16 @@
         </div>
         <div class="login-button">
             <div class="overlap">
-                <div class="group"><img class="user" src="{% static 'main/assets/user%201.svg' %}"/></div>
-                <div class="text-wrapper-2">
-                    {% if user_id %}
-                        {{ user_id }}
-                    {% else %}
-                        Log in
-                    {% endif %}
-                </div>
+                <a href="/login">
+                    <div class="group"><img class="user" src="{% static 'main/assets/user%201.svg' %}"/></div>
+                    <div class="text-wrapper-2">
+                        {% if user_id %}
+                            {{ user_id }}
+                        {% else %}
+                            Log in
+                        {% endif %}
+                    </div>
+                </a>
             </div>
         </div>
     </header>

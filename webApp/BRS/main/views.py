@@ -1,7 +1,9 @@
 from django.http import HttpResponse
 from django.shortcuts import render, redirect  # render нужен для вывода html шаблона
 from .forms import RegistrationForm
-
+from django.contrib.auth import authenticate, login
+from django.urls import reverse
+from django.contrib import messages
 
 # Create your views here.
 
@@ -30,3 +32,20 @@ def register(request):
         form = RegistrationForm()
 
     return render(request, 'main/register.html', {'form': form})
+
+
+def login_view(request):
+    if request.method == 'POST':
+        username = request.POST.get('username')
+        password = request.POST.get('password')
+        user = authenticate(username=username, password=password)
+        if user is not None:
+            login(request, user)
+            # Redirect to a success page
+            user_id = request.user.id
+            home_url = reverse('home', args=[user_id])
+            return redirect(home_url)
+        else:
+            # Return an error message
+            messages.error(request, 'Неверные учетные данные. Пожалуйста, попробуйте еще раз.')
+    return render(request, 'main/login.html')
