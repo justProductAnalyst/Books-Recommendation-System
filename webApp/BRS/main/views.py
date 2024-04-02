@@ -1,9 +1,13 @@
 from django.http import HttpResponse
 from django.shortcuts import render, redirect  # render нужен для вывода html шаблона
-from .forms import RegistrationForm
+from django.views.generic import ListView, DetailView
+
+from .forms import RegistrationForm, SearchForm
 from django.contrib.auth import authenticate, login
 from django.urls import reverse
 from django.contrib import messages
+from data.models import Book, BookTexts
+
 
 # Create your views here.
 
@@ -49,3 +53,26 @@ def login_view(request):
             # Return an error message
             messages.error(request, 'Неверные учетные данные. Пожалуйста, попробуйте еще раз.')
     return render(request, 'main/login.html')
+
+
+class BlogSearchView(ListView):
+    model = Book
+    template_name = 'main/search.html'
+    context_object_name = 'books'
+
+    def get_queryset(self):
+        query = self.request.GET.get('q')
+        return Book.objects.filter(title__icontains=query).order_by('-title')
+
+
+class PostIndexView(ListView):
+    model = Book
+    template_name = 'main/search.html'
+    queryset = Book.objects.all()
+    context_object_name = 'books'
+
+
+class PostDetailView(DetailView):
+    model = BookTexts
+    context_object_name = 'book'
+    template_name = 'main/search_results.html'
