@@ -1,0 +1,159 @@
+body {
+    margin: 0;
+    background-color: #FCFCFC;
+    justify-content: center;
+}
+
+.frame-22,
+.frame-22 * {
+    box-sizing: border-box;
+    
+}
+.frame-22 {
+    height: 681px;
+    position: relative;
+}
+.rectangle-9 {
+    background: #fcfcfc;
+    border-radius: 40px;
+    width: 627px;
+    height: 681px;
+    position: absolute;
+    left: 0px;
+    top: 0px;
+}
+.frame-24 {
+    display: flex;
+    flex-direction: column;
+    gap: 137px;
+    align-items: center;
+    justify-content: flex-start;
+    position: absolute;
+    left: 60px;
+    top: 35px;
+}
+.sign-up-or-log-in {
+    color: #000000;
+    text-align: left;
+    font-family: "Inter-Bold", sans-serif;
+    font-size: 24px;
+    font-weight: 700;
+    position: relative;
+}
+.frame-18 {
+    display: flex;
+    flex-direction: column;
+    gap: 29px;
+    align-items: flex-start;
+    justify-content: flex-start;
+    flex-shrink: 0;
+    position: relative;
+}
+.group-8 {
+    flex-shrink: 0;
+    width: 505.55px;
+    height: 100px;
+    position: static;
+}
+.group-18 {
+    width: 504.47px;
+    height: 58px;
+    position: static;
+}
+.rectangle-10 {
+    background: #f4f4f4;
+    border-radius: 10px;
+    border-style: solid;
+    border-color: #848484;
+    border-width: 1px;
+    width: 504.47px;
+    height: 58px;
+    position: absolute;
+    left: 1.08px;
+    top: 42px;
+}
+.john-smith-gmail-com {
+    color: #949494;
+    text-align: left;
+    font-family: "Inter-Regular", sans-serif;
+    font-size: 20px;
+    font-weight: 400;
+    position: absolute;
+    left: 16.08px;
+    top: 59px;
+    width: 284.75px;
+    height: 32.63px;
+}
+.email {
+    color: #000000;
+    text-align: left;
+    font-family: "Inter-Regular", sans-serif;
+    font-size: 24px;
+    font-weight: 400;
+    position: absolute;
+    left: 0px;
+    top: 0px;
+    width: 88.3px;
+    height: 32.24px;
+}
+.rectangle-102 {
+    background: #f4f4f4;
+    border-radius: 10px;
+    border-style: solid;
+    border-color: #848484;
+    border-width: 1px;
+    width: 504.47px;
+    height: 58px;
+    position: absolute;
+    left: 1.08px;
+    top: 171px;
+}
+.password {
+    color: #000000;
+    text-align: left;
+    font-family: "Inter-Regular", sans-serif;
+    font-size: 24px;
+    font-weight: 400;
+    position: absolute;
+    left: 0px;
+    top: 129px;
+    width: 146px;
+    height: 32px;
+}
+.frame-13 {
+    background: #2c394f;
+    border-radius: 10px;
+    padding: 21px 28px 21px 28px;
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    position: relative;
+}
+.sign-up-log-in {
+    color: #fcfcfc;
+    text-align: left;
+    font-family: "Inter-Bold", sans-serif;
+    font-size: 24px;
+    font-weight: 700;
+    position: relative;
+}
+.frame-132 {
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    left: 580px;
+    top: 16px;
+}
+.cross {
+    flex-shrink: 0;
+    width: 30px;
+    height: 30px;
+    position: relative;
+    overflow: visible;
+}
