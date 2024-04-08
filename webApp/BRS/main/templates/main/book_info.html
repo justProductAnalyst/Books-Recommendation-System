@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Book Info</title>
+</head>
+<body>
+    <h1>{{ book.title }}</h1>
+    <p>Author: {{ book.author }}</p>
+    <p>Genre: {{ book.genre }}</p>
+    <p>Year of 1st publication: {{ book.year_of_1st_publication }}</p>
+    <img src=" {{ book.image_l }} " alt="Моя картинка">
+
+
+    <h2>Description:</h2>
+    <p>{{ book_texts.description }}</p>
+
+    <h2>Summary:</h2>
+    <p>{{ book_texts.summary }}</p>
+
+    <h2>Reviews:</h2>
+    <ul>
+        {% for review in reviews %}
+            <li>{{ review.review }}</li>
+        {% endfor %}
+    </ul>
+</body>

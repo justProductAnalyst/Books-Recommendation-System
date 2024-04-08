@@ -23,7 +23,7 @@
           <h3>{{book.title}}</h3>
           <p>{{book.author}}</p>
           <img src=" {{ book.image_l }} " alt="Моя картинка">
-          <a href="{% url 'post_detail' pk=book.id %}" class="btn btn-sm btn-primary">Read More</a>
+          <a href="{% url 'post_detail' book_id=book.book_id %}" class="btn btn-sm btn-primary">Read More</a>
         </div>
       {% endfor %}
     </div>
