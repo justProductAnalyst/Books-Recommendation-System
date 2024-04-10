@@ -1,14 +1,53 @@
+{% load static %} <!-- Подключаем папку static -->
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Registration</title>
+  <link rel="stylesheet" href="globals.css"/>
+    <link rel="stylesheet" href="{% static 'main/css/login.css' %}"/>
 </head>
-<body>
-    <h1>Registration Form</h1>
+    <body>
+    <div id="message-block">
+    {% for message in messages %}
+        <div class="message-{{ message.tags }}">
+        {{ message }}
+        </div>
+    {% endfor %}
+    </div>
     <form method="post">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit">Register</button>
-    </form>
+      {% csrf_token %}
+        <div class="frame-22">
+            <input type="hidden" name="csrfmiddlewaretoken" value="UUuWHpm9chDdgSTU1nndkI8cYo9wov7czDJZlQWrDujPtjX8W9bkznJyznMEUa9o">
+            <div class="rectangle-9">
+                <div class="frame-24">
+                    <div class="sign-up-or-log-in">Register</div>
+                    <section class="frame-18">
+                        <div class="group-8">
+                            <div class="group-18">
+                                <input class="rectangle-10" type="text" name="username" maxlength="150" required aria-describedby="id_username_helptext" id="id_username">
+
+                            </div>
+                            <label for="id_username" class='email'>Username:</label>
+                        </div>
+                        <div class="group-8">
+                            <div class="group-18">
+                                <input class="rectangle-102" type="password" id="password" name="password">
+                            </div>
+                            <label class="password" for="password">Password:</label>
+                        </div>
+                        <div class="frame-14">
+                            <button type="submit" class="sign-up-log-in">Register</button>
+                        </div>
+                        <div class="group-8">
+                            <div class="group-18">
+                                <input class="rectangle-101" type="email" name="email" maxlength="254" id="id_email">
+                            </div>
+                            <label for="id_email" class='email2'>Email:</label>
+                        </div>
+                        <div>Or <a href="/login" class="button">Log in</a></div>
+                    </section>
+                </div>
+            </div>
+        </div>
+        </form>
 </body>
 </html>
