@@ -27,7 +27,7 @@
                     <div class="group"><img class="user" src="{% static 'main/assets/user%201.svg' %}"/></div>
                     <div class="text-wrapper-2">
                         {% if user_id %}
-                            {{ user_id }}
+                            {{ username }}
                         {% else %}
                             Log in
                         {% endif %}
@@ -40,7 +40,7 @@
         <div class="div-2">
             <div class="text-wrapper-3">Recommendations for you,
             {% if user_id %}
-                {{ user_id }}
+                {{ username }}
             {% else %}
                 Log in
             {% endif %}

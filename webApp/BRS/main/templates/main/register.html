@@ -2,51 +2,64 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <link rel="stylesheet" href="globals.css"/>
+    <link rel="stylesheet" href="globals.css"/>
     <link rel="stylesheet" href="{% static 'main/css/login.css' %}"/>
 </head>
-    <body>
-    <div id="message-block">
+<body>
+<div id="message-block">
     {% for message in messages %}
-        <div class="message-{{ message.tags }}">
+    <div class="message-{{ message.tags }}">
         {{ message }}
-        </div>
-    {% endfor %}
     </div>
-    <form method="post">
-      {% csrf_token %}
-        <div class="frame-22">
-            <div class="rectangle-9">
-                <div class="frame-24">
-                    <div class="sign-up-or-log-in">Register</div>
-                    <section class="frame-18">
-                        <div class="group-8">
-                            <div class="group-18">
-                                <input class="rectangle-10" type="text" name="username" maxlength="150" required aria-describedby="id_username_helptext" id="id_username">
+    {% endfor %}
+</div>
+<form method="post">
+    {% csrf_token %}
+    <div class="frame-22">
+        <div class="rectangle-9">
+            <div class="frame-24">
+                <div class="sign-up-or-log-in" style="margin-top: -5rem;">Register</div>
+                <section class="frame-18">
+                    <div class="group-8">
+                        <div class="group-18">
+                            <input class="rectangle-10" type="text" name="username" maxlength="150" required
+                                   aria-describedby="id_username_helptext" id="id_username">
 
-                            </div>
-                            <label for="id_username" class='email'>Username:</label>
                         </div>
-                        <div class="group-8">
-                            <div class="group-18">
-                                <input class="rectangle-102" type="password" id="password" name="password">
-                            </div>
-                            <label class="password" for="password">Password:</label>
+                        <label for="id_username" class='email'>Username:</label>
+                    </div>
+                    <div class="group-8">
+                        <div class="group-18">
+                            <input class="rectangle-102" type="password" id="password" name="password">
                         </div>
-                        <div class="frame-14">
-                            <button type="submit" class="sign-up-log-in">Register</button>
+                        <label class="password" for="password">Password:</label>
+                    </div>
+                    <div class="group-8">
+                        <div class="group-18">
+                            <input class="rectangle-103" type="text" name="location" id="id_location" required>
                         </div>
-                        <div class="group-8">
-                            <div class="group-18">
-                                <input class="rectangle-101" type="email" name="email" maxlength="254" id="id_email">
-                            </div>
-                            <label for="id_email" class='email2'>Email:</label>
+                        <label for="id_location" class="location">Location:</label>
+                    </div>
+                    <div class="group-8">
+                        <div class="group-18">
+                            <input class="rectangle-104" type="number" name="age" id="id_age" required>
                         </div>
-                        <div>Or <a href="/login" class="button">Log in</a></div>
-                    </section>
-                </div>
+                        <label for="id_age" class="age">Age:</label>
+                    </div>
+                    <div class="frame-14">
+                        <button type="submit" class="sign-up-log-in">Register</button>
+                    </div>
+                    <div class="group-8">
+                        <div class="group-18">
+                            <input class="rectangle-101" type="email" name="email" maxlength="254" id="id_email">
+                        </div>
+                        <label for="id_email" class='email2'>Email:</label>
+                    </div>
+                    <div style="margin-top: -8rem;">Or <a href="/login" class="button">Log in</a></div>
+                </section>
             </div>
         </div>
-        </form>
+    </div>
+</form>
 </body>
 </html>
