@@ -1,13 +1,13 @@
 from django.http import HttpResponse
-from django.shortcuts import render, redirect  # render нужен для вывода html шаблона
+from django.shortcuts import render, redirect, get_object_or_404  # render нужен для вывода html шаблона
 from django.views.decorators.csrf import csrf_protect
 from django.views.generic import ListView, DetailView
 
-from .forms import CustomUserCreationForm, SearchForm
+from .forms import CustomUserCreationForm, SearchForm, RatingForm
 from django.contrib.auth import authenticate, login, get_user_model
 from django.urls import reverse
 from django.contrib import messages
-from data.models import Book, BookTexts
+from data.models import Book, BookTexts, UserBook
 from .models import User
 from .forms import CustomUserCreationForm
 
@@ -17,16 +17,13 @@ from .forms import CustomUserCreationForm
 
 def index(request, user_id=None):
     # путь прописываем как будто мы в templates
-    user = get_user_model()
-    if user_id:
-        username = user.objects.get(pk=user_id).username
-    else:
-        username = None
-    return render(request, "main/main.html", {'user_id': user_id, 'username': username})
+    user_id = request.user.user_id if request.user.is_authenticated else None
+    return render(request, "main/main.html", {'user_id': user_id})
 
 
 def history(request, user_id=None):
     # путь прописываем как будто мы в templates
+    user_id = request.user.user_id if request.user.is_authenticated else None
     return render(request, "main/user_history.html", {'user_id': user_id})
 
 
@@ -58,8 +55,8 @@ def login_view(request):
             login(request, user)
             # Redirect to a success page
             user_id = request.user.user_id
-            home_url = reverse('home', args=[user_id])
-            return redirect(home_url)
+            # home_url = reverse()
+            return redirect('home')
         else:
             # Return an error message
             messages.error(request, 'Неверные учетные данные. Пожалуйста, попробуйте еще раз.')
@@ -87,3 +84,25 @@ class PostDetailView(DetailView):
     model = BookTexts
     context_object_name = 'book'
     template_name = 'main/search_results.html'
+
+
+def rate_book(request, book_id):
+    if not request.user.is_authenticated:
+        return redirect('login')
+    book = get_object_or_404(Book, book_id=book_id)
+
+    if request.method == 'POST':
+        form = RatingForm(request.POST)
+        if form.is_valid():
+            rating = form.cleaned_data['rating']
+            user_id = request.user.user_id  # Получаем ID пользователя
+            # Сохраняем оценку книги в базе данных
+            user_book, created = UserBook.objects.get_or_create(book_id=book_id, user_id=user_id, defaults={'rating': rating})
+            user_book.rating = rating
+            user_book.save()
+            # Перенаправляем пользователя на страницу с деталями книги
+            return redirect('post_detail', book_id=book.book_id)
+    else:
+        form = RatingForm()
+
+    return render(request, 'main/rate_book.html', {'book': book, 'form': form})
