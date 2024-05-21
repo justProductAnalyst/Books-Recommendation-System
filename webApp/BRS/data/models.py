@@ -1,16 +1,17 @@
 from django.db import models
+from django.contrib.auth.models import AbstractUser
 
 
 # Create your models here.
 
-class User(models.Model):
-    user_id = models.CharField('Username', max_length=250, default="default")
-    location = models.CharField('Location', max_length=250, default="Vinland")
-    age = models.IntegerField('Age')
-    password = models.CharField('password', max_length=250, default="password")
-
-    def __str__(self):
-        return str(self.user_id)
+# class CustomUser(AbstractUser):
+#     user_id = models.AutoField(primary_key=True)
+#     location = models.CharField('Location', max_length=250, default="Vinland")
+#     age = models.IntegerField('Age')
+#     # password = models.CharField('password', max_length=250, default="password")
+#
+#     # def __str__(self):
+#     #     return str(self.user_id)
 
 
 class Book(models.Model):
@@ -40,8 +41,9 @@ class BookTexts(models.Model):
 
 
 class UserBook(models.Model):
+    # id = models.AutoField(primary_key=True)  # Автоматически увеличиваемое поле первичного ключа
     book_id = models.CharField('Book_id', max_length=100, default="book_id")
-    user_id = models.CharField('Username', max_length=250, default="default")
+    user_id = models.IntegerField('User_id')
     rating = models.FloatField('Rating')
 
     def __str__(self):

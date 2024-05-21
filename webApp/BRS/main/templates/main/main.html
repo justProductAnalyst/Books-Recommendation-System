@@ -12,15 +12,18 @@
             color: white;
             padding: 10px 0;
         }
+
         .header a {
             color: white;
             margin-right: 15px;
         }
+
         .header .navbar-brand img {
             height: 40px;
             margin-right: 10px;
             border-radius: 10px;
         }
+
         .book-card {
             background-color: #ffffff;
             border-radius: 10px;
@@ -29,9 +32,11 @@
             margin-bottom: 20px;
             transition: transform 0.2s;
         }
+
         .book-card:hover {
             transform: scale(1.05);
         }
+
         .book-card img {
             max-width: 100%;
             border-radius: 5px;
@@ -40,25 +45,31 @@
             height: 300px;
             object-fit: scale-down;
         }
+
         .book-card h3 {
             font-size: 1.25rem;
             color: #343a40;
         }
+
         .book-card p {
             color: #6c757d;
         }
+
         .btn-primary {
             background-color: #2f394d;
             border-color: #2f394d;
         }
+
         .btn-primary:hover {
             background-color: #cfd7b0;
             border-color: #cfd7b0;
             color: #2f394d;
         }
+
         .main-content {
             padding: 50px 0;
         }
+
         .title {
             color: #2f394d;
             margin-bottom: 30px;
@@ -73,7 +84,8 @@
             <img src="{% static 'main/assets/logo.png' %}" alt="Logo">
             <span>Books Recommendation System</span>
         </a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarNav">
@@ -84,7 +96,11 @@
                 <li class="nav-item">
                     <a class="btn btn-outline-light" href="/login">
                         <img src="{% static 'main/assets/user%201.svg' %}" alt="User Icon" style="height: 20px;">
-                        {% if user_id %} {{ user_id }} {% else %} Log in {% endif %}
+                        {% if user_id %}
+                        {{ username }}
+                        {% else %}
+                        Log in
+                        {% endif %}
                     </a>
                 </li>
             </ul>
@@ -94,7 +110,11 @@
 
 <div class="container mt-5">
     <div class="mb-5">
-        <h2>Recommendations for you, {% if user_id %}{{ user_id }}{% else %}Log in{% endif %}</h2>
+        <h2>Recommendations for you, {% if user_id %}
+            {{ username }}
+            {% else %}
+            Log in
+            {% endif %}</h2>
         <div id="Recommendations" class="row justify-content-start">
             <!-- Books will be dynamically added here -->
         </div>
@@ -150,16 +170,16 @@
 
     function getRecommendations(userId) {
         fetch('/api/recommendations/' + userId)
-        .then(response => response.json())
-        .then(books => updateCarousel(books, "Recommendations"))
-        .catch(error => console.error('Error:', error));
+            .then(response => response.json())
+            .then(books => updateCarousel(books, "Recommendations"))
+            .catch(error => console.error('Error:', error));
     }
 
     function getPopularBooks() {
         fetch('/api/popular/')
-        .then(response => response.json())
-        .then(books => updateCarousel(books, "Popular"))
-        .catch(error => console.error('Error:', error));
+            .then(response => response.json())
+            .then(books => updateCarousel(books, "Popular"))
+            .catch(error => console.error('Error:', error));
     }
 
     var userId = "{{ user_id }}";

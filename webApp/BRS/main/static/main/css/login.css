@@ -82,7 +82,7 @@ button, input[type="submit"], input[type="reset"] {
     font-weight: 400;
     line-height: normal;
 }
-.john-smith-gmail-com {
+/*.john-smith-gmail-com {
     font-family: "Inter-Regular", sans-serif;
     width: 17.79694rem;
     height: 2.03913rem;
@@ -92,7 +92,7 @@ button, input[type="submit"], input[type="reset"] {
     font-style: normal;
     font-weight: 400;
     line-height: normal;
-}
+}*/
 .email {
     text-align: left;
     font-family: "Inter-Regular", sans-serif;
@@ -188,12 +188,12 @@ button, input[type="submit"], input[type="reset"] {
     padding: 1.3125rem 1.75rem;
     justify-content: center;
     align-items: center;
-    gap: 5.625rem;
+    gap: 1rem;
     border-radius: 0.625rem;
     background: #2C394F;
     position: relative;
     left: 40%;
-    top: 7rem;
+    top: 3rem;
 }
 .sign-up-log-in {
     color: #fcfcfc;
@@ -229,4 +229,71 @@ button, input[type="submit"], input[type="reset"] {
     height: 30px;
     position: relative;
     overflow: visible;
+}
+.rectangle-104 {
+    background: #f4f4f4;
+    position: absolute;
+    left: 0rem;
+    top: 26.2rem;
+    width: 31.52969rem;
+    height: 3.625rem;
+    flex-shrink: 0;
+    border-radius: 0.625rem;
+    border: 1px solid #848484;
+    font-family: "Inter-Regular", sans-serif;
+    color: #949494;
+    font-size: 1.25rem;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+}
+.rectangle-103 {
+    background: #f4f4f4;
+    position: absolute;
+    left: 0rem;
+    top: 33.8rem;
+    width: 31.52969rem;
+    height: 3.625rem;
+    flex-shrink: 0;
+    border-radius: 0.625rem;
+    border: 1px solid #848484;
+    font-family: "Inter-Regular", sans-serif;
+    color: #949494;
+    font-size: 1.25rem;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+}
+.age {
+    text-align: left;
+    font-family: "Inter-Regular", sans-serif;
+    font-weight: 400;
+    position: absolute;
+    left: 0px;
+    top: 24rem;
+    width: 5.51875rem;
+    height: 2.01475rem;
+    flex-shrink: 0;
+    color: #000;
+    font-size: 1.5rem;
+    font-style: normal;
+    line-height: normal;
+}
+.location {
+    text-align: left;
+    font-family: "Inter-Regular", sans-serif;
+    font-weight: 400;
+    position: absolute;
+    left: 0px;
+    top: 32rem;
+    width: 5.51875rem;
+    height: 2.01475rem;
+    flex-shrink: 0;
+    color: #000;
+    font-size: 1.5rem;
+    font-style: normal;
+    line-height: normal;
+}
+.group-8 > div:last-child {
+    margin-top: -1rem; /* Уменьшите это значение, чтобы уменьшить расстояние */
 }

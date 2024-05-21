@@ -3,12 +3,13 @@ from django.shortcuts import render, redirect  # render нужен для выв
 from django.views.decorators.csrf import csrf_protect
 from django.views.generic import ListView, DetailView
 
-from .forms import RegistrationForm, SearchForm
-from django.contrib.auth import authenticate, login
+from .forms import CustomUserCreationForm, SearchForm
+from django.contrib.auth import authenticate, login, get_user_model
 from django.urls import reverse
 from django.contrib import messages
 from data.models import Book, BookTexts
-from django.contrib.auth.models import User
+from .models import User
+from .forms import CustomUserCreationForm
 
 
 # Create your views here.
@@ -16,7 +17,12 @@ from django.contrib.auth.models import User
 
 def index(request, user_id=None):
     # путь прописываем как будто мы в templates
-    return render(request, "main/main.html", {'user_id': user_id})
+    user = get_user_model()
+    if user_id:
+        username = user.objects.get(pk=user_id).username
+    else:
+        username = None
+    return render(request, "main/main.html", {'user_id': user_id, 'username': username})
 
 
 def history(request, user_id=None):
@@ -31,18 +37,15 @@ def about(request):
 @csrf_protect
 def register(request):
     if request.method == 'POST':
-        form = RegistrationForm(request.POST)
+        form = CustomUserCreationForm(request.POST)
         if form.is_valid():
-            username = form.cleaned_data.get('username')
-            password = form.cleaned_data.get('password')
-            email = form.cleaned_data.get('email')
-            user = User.objects.create_user(username=username, email=email)
-            user.set_password(password)  # Хэширование пароля
-            user.save()
-            return redirect('home')  # Перенаправление на главную страницу после успешной регистрации
+            user = form.save(commit=False)  # Не сохраняем пользователя сразу
+            user.set_password(form.cleaned_data['password'])  # Хэшируем пароль
+            user.save()  # Теперь сохраняем пользователя с хэшированным паролем
+            # Дополнительные действия после успешной регистрации
+            return redirect('home')
     else:
-        form = RegistrationForm()
-
+        form = CustomUserCreationForm()
     return render(request, 'main/register.html', {'form': form})
 
 
@@ -54,7 +57,7 @@ def login_view(request):
         if user is not None:
             login(request, user)
             # Redirect to a success page
-            user_id = request.user.id
+            user_id = request.user.user_id
             home_url = reverse('home', args=[user_id])
             return redirect(home_url)
         else:
