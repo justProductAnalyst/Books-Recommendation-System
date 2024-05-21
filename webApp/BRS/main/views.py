@@ -76,7 +76,7 @@ class BlogSearchView(ListView):
 class PostIndexView(ListView):
     model = Book
     template_name = 'main/search.html'
-    queryset = Book.objects.all()
+    queryset = Book.objects.filter(title__icontains="the+martian").order_by('-title')
     context_object_name = 'books'
 
 

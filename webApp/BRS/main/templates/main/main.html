@@ -1,160 +1,116 @@
-{% load static %} <!-- Подключаем папку static -->
+{% load static %}
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <link rel="stylesheet" href="globals.css"/>
-    <link rel="stylesheet" href="{% static 'main/css/main.css' %}"/>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <title>Books Recommendation System</title>
+    <style>
+        .header {
+            background-color: #2f394d;
+            color: white;
+            padding: 10px 0;
+        }
+        .header a {
+            color: white;
+            margin-right: 15px;
+        }
+        .header .navbar-brand img {
+            height: 40px;
+            margin-right: 10px;
+            border-radius: 10px;
+        }
+        .book-card {
+            background-color: #ffffff;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            margin-bottom: 20px;
+            transition: transform 0.2s;
+        }
+        .book-card:hover {
+            transform: scale(1.05);
+        }
+        .book-card img {
+            max-width: 100%;
+            border-radius: 5px;
+            margin-bottom: 15px;
+            width: 100%;
+            height: 300px;
+            object-fit: scale-down;
+        }
+        .book-card h3 {
+            font-size: 1.25rem;
+            color: #343a40;
+        }
+        .book-card p {
+            color: #6c757d;
+        }
+        .btn-primary {
+            background-color: #2f394d;
+            border-color: #2f394d;
+        }
+        .btn-primary:hover {
+            background-color: #cfd7b0;
+            border-color: #cfd7b0;
+            color: #2f394d;
+        }
+        .main-content {
+            padding: 50px 0;
+        }
+        .title {
+            color: #2f394d;
+            margin-bottom: 30px;
+        }
+    </style>
 </head>
 <body>
-<div class="main-screen-logged">
-    <header class="header">
-        <div class="logo-and-pages">
-            <div class="logo">
-                <div class="overlap-group">
-                    <img class="img" src="{% static 'main/assets/logo.png' %}"/>
-                    <div class="text-wrapper">Books Recommendation System</div>
-                </div>
-            </div>
-            <div class="pages">
-                <div class="div"><a href="/{{ user_id }}">Recommended</a></div>
-                <div class="div"><a href="/{{ user_id }}/history">Reading History</a></div>
-                <div class="div"><a href="/search">Search</a></div>
-            </div>
+
+<nav class="navbar navbar-expand-lg navbar-dark header">
+    <div class="container">
+        <a class="navbar-brand d-flex align-items-center" href="#">
+            <img src="{% static 'main/assets/logo.png' %}" alt="Logo">
+            <span>Books Recommendation System</span>
+        </a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item"><a class="nav-link" href="/{{ user_id }}">Recommended</a></li>
+                <li class="nav-item"><a class="nav-link" href="/{{ user_id }}/history">Reading History</a></li>
+                <li class="nav-item"><a class="nav-link" href="/search">Search</a></li>
+                <li class="nav-item">
+                    <a class="btn btn-outline-light" href="/login">
+                        <img src="{% static 'main/assets/user%201.svg' %}" alt="User Icon" style="height: 20px;">
+                        {% if user_id %} {{ user_id }} {% else %} Log in {% endif %}
+                    </a>
+                </li>
+            </ul>
         </div>
-        <div class="login-button">
-            <div class="overlap">
-                <a href="/login">
-                    <div class="group"><img class="user" src="{% static 'main/assets/user%201.svg' %}"/></div>
-                    <div class="text-wrapper-2">
-                        {% if user_id %}
-                            {{ user_id }}
-                        {% else %}
-                            Log in
-                        {% endif %}
-                    </div>
-                </a>
-            </div>
+    </div>
+</nav>
+
+<div class="container mt-5">
+    <div class="mb-5">
+        <h2>Recommendations for you, {% if user_id %}{{ user_id }}{% else %}Log in{% endif %}</h2>
+        <div id="Recommendations" class="row justify-content-start">
+            <!-- Books will be dynamically added here -->
         </div>
-    </header>
-    <div class="main">
-        <div class="div-2">
-            <div class="text-wrapper-3">Recommendations for you,
-            {% if user_id %}
-                {{ user_id }}
-            {% else %}
-                Log in
-            {% endif %}
-            </div>
-            <div class="carousel" id="Recommendations">
-                <div class="book">
-                    <div class="rectangle-3"></div>
-                    <div class="text-wrapper-4">Book Title</div>
-                </div>
-                <div class="book">
-                    <div class="rectangle-3"></div>
-                    <div class="text-wrapper-4">Book Title</div>
-                </div>
-                <div class="book">
-                    <div class="rectangle-3"></div>
-                    <div class="text-wrapper-4">Book Title</div>
-                </div>
-                <div class="book">
-                    <div class="rectangle-3"></div>
-                    <div class="text-wrapper-4">Book Title</div>
-                </div>
-                <div class="book">
-                    <div class="rectangle-3"></div>
-                    <div class="text-wrapper-4">Book Title</div>
-                </div>
-                <div class="book">
-                    <div class="rectangle-3"></div>
-                    <div class="text-wrapper-4">Book Title</div>
-                </div>
-                <div class="book">
-                    <div class="rectangle-3"></div>
-                    <div class="text-wrapper-4">Book Title</div>
-                </div>
-                <div class="book">
-                    <div class="rectangle-3"></div>
-                    <div class="text-wrapper-4">Book Title</div>
-                </div>
-                <div class="book">
-                    <div class="rectangle-3"></div>
-                    <div class="text-wrapper-4">Book Title</div>
-                </div>
-                <div class="book">
-                    <div class="rectangle-3"></div>
-                    <div class="text-wrapper-4">Book Title</div>
-                </div>
-                <div class="frame">
-                    <div class="group-wrapper">
-                        <div class="overlap-group-wrapper">
-                            <div class="overlap-group-2">
-                                <img class="line" src="{% static 'main/assets/Line%201.svg' %}"/> <img class="line-2" src="{% static 'main/assets/Line%202.svg' %}"/>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="text-wrapper-5">1</div>
-                </div>
-            </div>
-        </div>
-        <div class="div-2">
-            <div class="text-wrapper-3">Popular</div>
-            <div class="carousel" id="Popular">
-                <div class="book">
-                    <div class="rectangle"></div>
-                    <div class="text-wrapper-4">Book Title</div>
-                </div>
-                <div class="book">
-                    <div class="rectangle"></div>
-                    <div class="text-wrapper-4">Book Title</div>
-                </div>
-                <div class="book">
-                    <div class="rectangle"></div>
-                    <div class="text-wrapper-4">Book Title</div>
-                </div>
-                <div class="book">
-                    <div class="rectangle"></div>
-                    <div class="text-wrapper-4">Book Title</div>
-                </div>
-                <div class="book">
-                    <div class="rectangle"></div>
-                    <div class="text-wrapper-4">Book Title</div>
-                </div>
-                <div class="book">
-                    <div class="rectangle"></div>
-                    <div class="text-wrapper-4">Book Title</div>
-                </div>
-                <div class="book">
-                    <div class="rectangle"></div>
-                    <div class="text-wrapper-4">Book Title</div>
-                </div>
-                <div class="book">
-                    <div class="rectangle"></div>
-                    <div class="text-wrapper-4">Book Title</div>
-                </div>
-                <div class="book">
-                    <div class="rectangle-2"></div>
-                    <div class="text-wrapper-4">Book Title</div>
-                </div>
-                <div class="book">
-                    <div class="rectangle-2"></div>
-                    <div class="text-wrapper-4">Book Title</div>
-                </div>
-                <div class="frame">
-                    <div class="group-wrapper">
-                        <div class="overlap-group-wrapper">
-                            <div class="overlap-group-2">
-                                <img class="line" src="{% static 'main/assets/Line%201.svg' %}"/> <img class="line-2" src="{% static 'main/assets/Line%202.svg' %}"/>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="text-wrapper-5">Text</div>
-                </div>
-            </div>
+    </div>
+
+    <div class="mb-5">
+        <h2>Popular</h2>
+        <div id="Popular" class="row justify-content-start">
+            <!-- Books will be dynamically added here -->
         </div>
     </div>
 </div>
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 <script>
     function updateCarousel(books, id) {
         let carousel = document.getElementById(id);
@@ -162,38 +118,34 @@
 
         books.forEach(book => {
             let bookDiv = document.createElement('div');
-            bookDiv.className = 'book';
+            bookDiv.className = 'col-md-6 col-lg-4';
 
-            let rectangleDiv = document.createElement('div');
-            rectangleDiv.className = 'rectangle-3';
+            let cardDiv = document.createElement('div');
+            cardDiv.className = 'book-card';
 
             let img = document.createElement('img');
-            img.className = 'book-img'
+            img.className = 'book-img';
             img.src = decodeURIComponent(book['image_l'].substring(1)).replace('http:/', 'http://');
-            console.log(decodeURIComponent(book['image_l'].substring(1)));
-            console.log(img.src);
-            rectangleDiv.appendChild(img);
 
-            let titleDiv = document.createElement('div');
-            titleDiv.className = 'text-wrapper-4';
+            let titleDiv = document.createElement('h3');
             titleDiv.textContent = book['title'];
 
-            bookDiv.appendChild(rectangleDiv);
-            bookDiv.appendChild(titleDiv);
+            let authorDiv = document.createElement('p');
+            authorDiv.textContent = book['author'];
+
+            let readMoreLink = document.createElement('a');
+            readMoreLink.href = `/book/${book['book_id']}`;
+            readMoreLink.className = 'btn btn-primary btn-sm';
+            readMoreLink.textContent = 'Read More';
+
+            cardDiv.appendChild(img);
+            cardDiv.appendChild(titleDiv);
+            cardDiv.appendChild(authorDiv);
+            cardDiv.appendChild(readMoreLink);
+            bookDiv.appendChild(cardDiv);
 
             carousel.appendChild(bookDiv);
         });
-        carousel.innerHTML = carousel.innerHTML + '\
-        <div class="frame"> \
-            <div class="group-wrapper"> \
-            <div class="overlap-group-wrapper"> \
-            <div class="overlap-group-2"> \
-                <img class="line" src="{% static "main/assets/Line%201.svg" %}"/> <img class="line-2" src="{% static "main/assets/Line%202.svg" %}"/> \
-            </div> \
-            </div> \
-            </div> \
-            <div class="text-wrapper-5">1</div> \
-        </div>';
     }
 
     function getRecommendations(userId) {

@@ -1,64 +1,140 @@
-{% load static %} <!-- Подключаем папку static -->
 <!DOCTYPE html>
+{% load static %}
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <link rel="stylesheet" href="{% static 'main/css/main.css' %}"/>
     <title>Book Info</title>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body {
+            background-color: #FCFCFC;
+        }
+        .header {
+            background-color: #2f394d;
+            color: white;
+            padding: 10px 0;
+        }
+        .header a {
+            color: white;
+            margin-right: 15px;
+        }
+        .header .navbar-brand img {
+            height: 40px;
+            margin-right: 10px;
+            border-radius: 10px;
+        }
+        .book-container {
+            display: flex;
+            margin-top: 30px;
+            align-items: flex-start;
+        }
+        .book-image img {
+            max-width: 100%;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        .book-info {
+            margin-left: 30px;
+            flex: 1;
+        }
+        .book-info h1 {
+            font-size: 2.5rem;
+            color: #343a40;
+        }
+        .book-info p {
+            font-size: 1.2rem;
+            color: #6c757d;
+        }
+        .book-info h2 {
+            margin-top: 20px;
+            font-size: 1.75rem;
+            color: #343a40;
+        }
+        .reviews {
+            margin-top: 40px;
+        }
+        .reviews h2 {
+            font-size: 2rem;
+            color: #343a40;
+        }
+        .reviews ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        .reviews li {
+            background: #f8f9fa;
+            padding: 10px;
+            margin-bottom: 10px;
+            border-radius: 5px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        .btn-outline-light {
+            border-color: #cfd7b0;
+            color: #cfd7b0;
+        }
+        .btn-outline-light:hover {
+            background-color: #cfd7b0;
+            color: #2f394d;
+        }
+    </style>
 </head>
 <body>
-    <div class="main-screen-logged">
-    <header class="header">
-            <div class="logo-and-pages">
-                <div class="logo">
-                    <div class="overlap-group">
-                        <img class="img" src="{% static 'main/assets/logo.png' %}"/>
-                        <div class="text-wrapper">Books Recommendation System</div>
-                    </div>
-                </div>
-                <div class="pages">
-                    <div class="div"><a href="/{{ user_id }}">Recommended</a></div>
-                    <div class="div"><a href="/{{ user_id }}/history">Reading History</a></div>
-                    <div class="div"><a href="/search">Search</a></div>
-                </div>
-            </div>
-            <div class="login-button">
-                <div class="overlap">
-                    <a href="/login">
-                        <div class="group"><img class="user" src="{% static 'main/assets/user%201.svg' %}"/></div>
-                        <div class="text-wrapper-2">
-                            {% if user_id %}
-                                {{ user_id }}
-                            {% else %}
-                                Log in
-                            {% endif %}
-                        </div>
+<nav class="navbar navbar-expand-lg navbar-dark header">
+    <div class="container">
+        <a class="navbar-brand d-flex align-items-center" href="/">
+            <img src="{% static 'main/assets/logo.png' %}" alt="Logo">
+            <span>Books Recommendation System</span>
+        </a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item"><a class="nav-link" href="/{{ user_id }}">Recommended</a></li>
+                <li class="nav-item"><a class="nav-link" href="/{{ user_id }}/history">Reading History</a></li>
+                <li class="nav-item"><a class="nav-link" href="/search">Search</a></li>
+                <li class="nav-item">
+                    <a class="btn btn-outline-light" href="/login">
+                        <img src="{% static 'main/assets/user%201.svg' %}" alt="User Icon" style="height: 20px;">
+                        {% if user_id %} {{ user_id }} {% else %} Log in {% endif %}
                     </a>
-                </div>
-            </div>
-        </header>
-    <div class="book-container">
-        <div class="book-image">
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+<div class="container mt-5">
+    <div class="row book-container">
+        <div class="col-md-4 book-image">
             <img src="{{ book.image_l }}" alt="Book Image">
         </div>
-        <div class="book-info">
+        <div class="col-md-8 book-info">
             <h1>{{ book.title }}</h1>
-            <p>Author: {{ book.author }}</p>
-            <p>Genre: {{ book.genre }}</p>
-            <p>Year of 1st publication: {{ book.year_of_1st_publication }}</p>
+            <p><strong>Author:</strong> {{ book.author }}</p>
+            <p><strong>Genre:</strong> {{ book.genre }}</p>
+            <p><strong>Year of 1st publication:</strong> {{ book.year_of_1st_publication }}</p>
             <h2>Description:</h2>
             <p>{{ book_texts.description }}</p>
-
             <h2>Summary:</h2>
             <p>{{ book_texts.summary }}</p>
         </div>
     </div>
 
-    <h2>Reviews:</h2>
-    <ul>
-        {% for review in reviews %}
-            <li>{{ review.review }}</li>
-        {% endfor %}
-    </ul>
-    <div>
+    <div class="reviews mt-5">
+        <h2>Reviews:</h2>
+        <ul>
+            {% for review in reviews %}
+                <li>{{ review.review }}</li>
+            {% endfor %}
+        </ul>
+    </div>
+</div>
+
+<!-- Optional JavaScript -->
+<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
+</html>

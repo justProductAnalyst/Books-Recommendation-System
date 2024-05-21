@@ -1,74 +1,101 @@
-{% load static %} <!-- Подключаем папку static -->
 <!DOCTYPE html>
-<html>
+{% load static %}
+<html lang="en">
 <head>
-  <link rel="stylesheet" href="globals.css"/>
-  <link rel="stylesheet" href="{% static 'main/css/login.css' %}"/>
+    <meta charset="UTF-8">
+    <title>Login</title>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body {
+            background-color: #FCFCFC;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            flex-direction: column;
+        }
+        .message-block {
+            width: 100%;
+            max-width: 400px;
+            margin-bottom: 20px;
+        }
+        .login-container {
+            background-color: #ffffff;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            padding: 40px;
+            max-width: 400px;
+            width: 100%;
+            text-align: center;
+        }
+        .login-container h1 {
+            font-size: 2rem;
+            margin-bottom: 20px;
+            color: #343a40;
+        }
+        .form-group {
+            margin-bottom: 20px;
+        }
+        .form-control {
+            border-radius: 5px;
+            padding: 10px;
+        }
+        .btn-primary {
+            background-color: #2f394d;
+            border-color: #2f394d;
+            width: 100%;
+            padding: 10px;
+            font-size: 1rem;
+        }
+        .btn-primary:hover {
+            background-color: #cfd7b0;
+            border-color: #cfd7b0;
+            color: #2f394d;
+        }
+        .register-link {
+            margin-top: 20px;
+        }
+        .register-link a {
+            color: #2f394d;
+        }
+        .alert-danger {
+            background-color: #f8d7da;
+            border-color: #f5c6cb;
+            color: #721c24;
+        }
+    </style>
 </head>
 <body>
-  <div id="message-block">
-    {% for message in messages %}
-    <div class="message-{{ message.tags }}">
-        {{ message }}
-    </div>
-    {% endfor %}
-  </div>
-  <form method="post">
-      {% csrf_token %}
-  <div class="frame-22">
-    <div class="rectangle-9">
-    <div class="frame-24">
-      <div class="sign-up-or-log-in">Log in</div>
-      <div class="frame-18">
-        <div class="group-8">
-          <div class="group-18">
-            <!--<div class="rectangle-10"></div>-->
-            <input class="rectangle-10" type="text" id="username" name="username" placeholder="JohnSmith@gmail.com">
-          </div>
-          <label for="username" class='email'>Username:</label>
+    <div class="message-block container">
+        {% for message in messages %}
+        <div class="alert alert-danger mt-3">
+            {{ message }}
         </div>
-        <div class="group-8">
-          <div class="group-18">
-            <!--<div class="rectangle-102"></div>-->
-            <input class="rectangle-102" type="password" id="password" name="password">
-          </div>
-          <label class="password" for="password">Password:</label>
-      </div>
-      <div class="frame-13">
-        <button type="submit" class="sign-up-log-in">Log in</button>
-      </div>
-        <div>Or <a href="/register" class="button">Register</a></div>
-
+        {% endfor %}
     </div>
-    <!--<div class="frame-132">-->
-    <!--  <svg-->
-    <!--    class="cross"-->
-    <!--    width="30"-->
-    <!--    height="30"-->
-    <!--    viewBox="0 0 30 30"-->
-    <!--    fill="none"-->
-    <!--    xmlns="http://www.w3.org/2000/svg"-->
-    <!--    >-->
-    <!--    <circle cx="15" cy="15" r="15" fill="#E7E7E7" />-->
-    <!--    <line-->
-    <!--      x1="7.50362"-->
-    <!--      y1="22.6558"-->
-    <!--      x2="22.6559"-->
-    <!--      y2="7.50356"-->
-    <!--      stroke="#949494"-->
-    <!--  />-->
-    <!--    <line-->
-    <!--      x1="8.21073"-->
-    <!--      y1="7.5035"-->
-    <!--      x2="23.363"-->
-    <!--      y2="22.6558"-->
-    <!--      stroke="#949494"-->
-    <!--  />-->
-    <!--  </svg>-->
-    <!--</div>-->
-  </div>
+    <div class="login-container">
+        <h1>Log in</h1>
+        <form method="post">
+            {% csrf_token %}
+            <div class="form-group">
+                <label for="username">Username:</label>
+                <input type="text" class="form-control" id="username" name="username" placeholder="JohnSmith@gmail.com">
+            </div>
+            <div class="form-group">
+                <label for="password">Password:</label>
+                <input type="password" class="form-control" id="password" name="password">
+            </div>
+            <button type="submit" class="btn btn-primary">Log in</button>
+        </form>
+        <div class="register-link">
+            Or <a href="/register">Register</a>
+        </div>
     </div>
-  </div>
-  </form>
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
 </html>

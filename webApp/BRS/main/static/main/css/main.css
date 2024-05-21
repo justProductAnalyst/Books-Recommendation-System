@@ -193,7 +193,7 @@ body {
     display: inline-flex;
     flex-direction: column;
     align-items: center;
-/*    justify-content: center;*/
+    /*    justify-content: center;*/
     position: relative;
     flex: 0 0 auto;
     height: 12.5rem;
@@ -224,7 +224,7 @@ body {
     display: inline-flex;
     flex-direction: column;
     align-items: center;
-/*    justify-content: center;*/
+    /*    justify-content: center;*/
     position: relative;
     flex: 0 0 auto;
     height: 12.5rem;
@@ -236,7 +236,8 @@ body {
     background-color: #eeeeee;
     border-radius: 10px;
     width: 6.91781rem;
-    height: 9.0875rem;    flex-shrink: 0;
+    height: 9.0875rem;
+    flex-shrink: 0;
 }
 
 .main-screen-logged .overlap-group-wrapper {
@@ -275,7 +276,7 @@ body {
     letter-spacing: 0;
     line-height: normal;
     position: relative;
-/*    width: 4.78188rem;*/
+    /*    width: 4.78188rem;*/
     font-family: "Inter-Regular", Helvetica;
     font-weight: 400;
     color: #fcfcfc;
@@ -287,20 +288,23 @@ body {
     position: relative;
     background-color: #eeeeee;
     width: 6.91781rem;
-    height: 9.0875rem;    flex-shrink: 0;
+    height: 9.0875rem;
+    flex-shrink: 0;
 }
 
 .main-screen-logged .rectangle-3 {
     position: relative;
     background-color: #eeeeee;
     width: 6.91781rem;
-    height: 9.0875rem;    flex-shrink: 0;
+    height: 9.0875rem;
+    flex-shrink: 0;
 }
 
 .main-screen-logged .book-img {
     position: relative;
     width: 6.91781rem;
-    height: 9.0875rem;    flex-shrink: 0;
+    height: 9.0875rem;
+    flex-shrink: 0;
 }
 
 .main-screen-logged .header .logo-and-pages .pages a {
@@ -332,4 +336,52 @@ body {
 .book-image img {
     max-width: 100%;
     height: auto;
+}
+
+.header {
+    background-color: #2f394d;
+    color: white;
+    padding: 10px 0;
+}
+
+.header a {
+    color: white;
+    margin-right: 15px;
+}
+
+.header .navbar-brand img {
+    height: 40px;
+    margin-right: 10px;
+    border-radius: 10px;
+}
+
+.carousel .book {
+    margin: 15px;
+    text-align: center;
+}
+
+.book .rectangle-3,
+.book .rectangle {
+    width: 150px;
+    height: 200px;
+    background-color: #ddd;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 10px;
+}
+
+.book .text-wrapper-4 {
+    margin-top: 10px;
+    font-size: 14px;
+}
+
+.btn-outline-light {
+    border-color: #cfd7b0;
+    color: #cfd7b0;
+}
+
+.btn-outline-light:hover {
+    background-color: #cfd7b0;
+    color: #2f394d;
 }

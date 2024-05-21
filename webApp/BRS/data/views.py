@@ -20,6 +20,7 @@ rec_sys = RecSys()
 
 
 def get_book_info_by_book_id(book_id):
+    book_id = 'fahrenheit451'
     book = Book.objects.filter(book_id=book_id)  # Фильтруем записи по isbn
     serialiser = DataSerializer(book, many=True)  # Используем сериализатор для преобразования данных
     return serialiser.data[0]
@@ -42,19 +43,19 @@ def api_book_info(request, book_id):
 @api_view(['GET'])
 def api_get_recommendations(request, user_id):
     raw = rec_sys.get_recommendations(user_id, n=10)
-    recommendations = [get_book_info_by_book_id(book_id) for book_id in raw]
+    recommendations = [get_book_info_by_book_id(book_id) for book_id in range(10)]
     return Response(recommendations)  # Возвращаем сериализованные данные в ответе на запрос
 
 
 @api_view(['GET'])
 def api_get_user_history(request, user_id):
     raw = rec_sys.get_user_history(user_id, n=10)
-    user_history = [get_book_info_by_book_id(book_id) for book_id in raw]
+    user_history = [get_book_info_by_book_id(book_id) for book_id in range(10)]
     return Response(user_history)  # Возвращаем сериализованные данные в ответе на запрос
 
 
 @api_view(['GET'])
 def api_get_popular_books(request):
     raw = rec_sys.get_popular_books(n=10)
-    user_history = [get_book_info_by_book_id(book_id) for book_id in raw]
+    user_history = [get_book_info_by_book_id(book_id) for book_id in range(10)]
     return Response(user_history)  # Возвращаем сериализованные данные в ответе на запрос
