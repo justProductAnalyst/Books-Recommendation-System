@@ -24,8 +24,12 @@ class RecSys:
         return [self.process_str_to_int(i) for i in result if self.process_str_to_int(i)]
 
     def get_user_history(self, user_id, n=10):
-        result = self.history_data[self.history_data['User-ID'] == user_id]['ISBN'].head(n).tolist()
-        return [self.process_str_to_int(i) for i in result if self.process_str_to_int(i)]
+        result = UserBook.objects.raw(f"""
+        SELECT id, book_id
+        FROM data_userbook
+        WHERE user_id = {user_id}
+        """)
+        return [user_book.book_id for user_book in result]
 
     def get_popular_books(self, n=10):
         result = UserBook.objects.raw(

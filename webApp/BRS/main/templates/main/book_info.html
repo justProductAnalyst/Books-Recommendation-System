@@ -141,7 +141,13 @@
             <h2>Summary:</h2>
             <p>{{ book_texts.summary }}</p>
         </div>
-    </div>
+        <!-- Форма для оценки книги -->
+        {% if request.user.is_authenticated %}
+            <a class="btn btn-primary" href="{% url 'rate_book' book_id=book.book_id %}">Rate</a>
+        {% else %}
+            <a class="btn btn-primary" href="{% url 'login' %}">Login to rate</a>
+        {% endif %}
+        </div>
 
     <div class="reviews mt-5">
         <h2>Reviews:</h2>

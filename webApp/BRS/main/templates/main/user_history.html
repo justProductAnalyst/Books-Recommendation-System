@@ -9,29 +9,24 @@
         body {
             background-color: #FCFCFC;
         }
-
         .header {
             background-color: #2f394d;
             color: white;
             padding: 10px 0;
         }
-
         .header a {
             color: white;
             margin-right: 15px;
         }
-
         .header .navbar-brand img {
             height: 40px;
             margin-right: 10px;
             border-radius: 10px;
         }
-
         .book {
             margin: 15px;
             text-align: center;
         }
-
         .book .rectangle-3 {
             width: 150px;
             height: 200px;
@@ -40,8 +35,8 @@
             align-items: center;
             justify-content: center;
             border-radius: 10px;
+            margin-top: 2in; /* Добавленный отступ сверху */
         }
-
         .book .text-wrapper-4 {
             margin-top: 10px;
             font-size: 14px;
@@ -50,54 +45,62 @@
 </head>
 <body>
 <nav class="navbar navbar-expand-lg navbar-dark header">
-        <div class="container">
-            <a class="navbar-brand d-flex align-items-center" href="/">
-                <img src="{% static 'main/assets/logo.png' %}" alt="Logo">
-                <span>Books Recommendation System</span>
-            </a>
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
-                    aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav ml-auto">
-                    <li class="nav-item">
-                        <a class="nav-link"
-                        href="{% if request.user.is_authenticated %} {% url 'home' %}{% else %}{% url 'login' %}{% endif %}">Recommended</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link"
-                        href="{% if request.user.is_authenticated %} {% url 'history' %}{% else %}{% url 'login' %}{% endif %}">Reading
-                            History</a>
-                    </li>
-                    <li class="nav-item"><a class="nav-link" href="/search">Search</a></li>
-                    <li class="nav-item">
-                        <a class="btn btn-outline-light" href="/login">
-                            <img src="{% static 'main/assets/user%201.svg' %}" alt="User Icon" style="height: 20px;">
-                            {% if request.user.is_authenticated %} {{ request.user.username }} {% else %} Log in {% endif %}
-                        </a>
-                    </li>
-                </ul>
-            </div>
+    <div class="container">
+        <a class="navbar-brand d-flex align-items-center" href="/">
+            <img src="{% static 'main/assets/logo.png' %}" alt="Logo">
+            <span>Books Recommendation System</span>
+        </a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                    <a class="nav-link"
+                       href="{% if request.user.is_authenticated %} {% url 'home' %}{% else %}{% url 'login' %}{% endif %}">Recommended</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link"
+                       href="{% if request.user.is_authenticated %} {% url 'history' %}{% else %}{% url 'login' %}{% endif %}">Reading
+                        History</a>
+                </li>
+                <li class="nav-item">
+                    <a class="btn btn-outline-light" href="/login">
+                        <img src="{% static 'main/assets/user%201.svg' %}" alt="User Icon" style="height: 20px;">
+                        <span class="user-info">
+                        {% if request.user.is_authenticated %} {{ request.user.username }}
+                        {% else %}
+                            Log in
+                        {% endif %}
+                        </span>
+                    </a>
+                </li>
+            </ul>
         </div>
-    </nav>
-
+    </div>
+</nav>
 <div class="container mt-5">
     <div class="row">
         <div class="col text-center">
             <h1>Reading History of
-                {% if user_id %}
-                {{ user_id }}
-                {% else %}
-                Log in
-                {% endif %}
+                <span class="user-info">
+                        {% if request.user.is_authenticated %} {{ request.user.username }}
+                        {% else %}
+                            Log in
+                        {% endif %}
+                </span>
             </h1>
         </div>
     </div>
-    <div class="row d-flex flex-wrap justify-content-center mt-4" id="books">
+    <div class="row d-flex flex-wrap justify-content-center mt-4" id="books" style="margin-top: 10in;">
+        <div style="height: 2in;"></div>
         <!-- Books will be dynamically added here -->
     </div>
 </div>
+
+<!-- Optional JavaScript -->
+<!-- jQuery first, then Popper.js, then Bootstrap JS -->
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
@@ -130,15 +133,40 @@
         });
     }
 
-    document.addEventListener('DOMContentLoaded', function () {
+    document.addEventListener('DOMContentLoaded', function() {
         const pathArray = window.location.pathname.split('/');
         const userId = pathArray[1];
 
         fetch(`/api/history/${userId}`)
-            .then(response => response.json())
-            .then(books => updateCarousel(books))
-            .catch(error => console.error('Error:', error));
+        .then(response => response.json())
+        .then(data => {
+            // Получаем данные о популярных книгах, user_id и username из ответа API
+            const books = data.user_history;
+            const user_id = data.user_id;
+            const username = data.username;
+
+            // Обновляем карусель с популярными книгами
+            updateCarousel(books, "Popular");
+
+            // Обновляем информацию о пользователе на странице
+        updateUserInformation(user_id, username);
+        })
+        .catch(error => console.error('Error:', error));
     });
+
+
+    function updateUserInformation(user_id, username) {
+        // Обновляем информацию о пользователе на странице в двух местах
+        const userElements = document.querySelectorAll('.user-info');
+        userElements.forEach(element => {
+            if (user_id) {
+                element.textContent = username;
+            } else {
+                element.textContent = 'Log in';
+            }
+        });
+}
 </script>
 </body>
 </html>
+

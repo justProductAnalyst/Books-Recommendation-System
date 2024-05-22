@@ -14,3 +14,20 @@ class CustomUserCreationForm(forms.ModelForm):
 
 class SearchForm(forms.Form):
     query = forms.CharField(label='', max_length=100, widget=forms.TextInput(attrs={'placeholder': 'Search...'}))
+
+from django import forms
+
+class RatingForm(forms.Form):
+    RATING_CHOICES = (
+        (1, '1 - awful'),
+        (2, '2 - very bad'),
+        (3, '3 - bad'),
+        (4, '4 - not good'),
+        (5, '5 - normal'),
+        (6, '6 - not bad'),
+        (7, '7 - seven'),
+        (8, '8 - good'),
+        (9, '9 - very good'),
+        (10, '10 - awesome')
+    )
+    rating = forms.ChoiceField(choices=RATING_CHOICES, widget=forms.Select(attrs={'class': 'form-control'}))

@@ -1,8 +1,11 @@
+from django.contrib.auth import get_user_model
+from django.http import JsonResponse
 from django.shortcuts import render
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 
 from .models import Book, BookTexts, Reviews
+# from BRS.main.models import User
 from .serializer import DataSerializer
 import sys
 import os
@@ -48,9 +51,16 @@ def api_get_recommendations(request, user_id):
 
 @api_view(['GET'])
 def api_get_user_history(request, user_id):
+    user = get_user_model().objects.get(user_id=user_id)
+    username = user.username
     raw = rec_sys.get_user_history(user_id, n=10)
     user_history = [get_book_info_by_book_id(book_id) for book_id in raw]
-    return Response(user_history)  # Возвращаем сериализованные данные в ответе на запрос
+    response_data = {
+        'user_id': user_id,
+        'username': username,
+        'user_history': user_history
+    }
+    return JsonResponse(response_data)  # Возвращаем сериализованные данные в ответе на запрос
 
 
 @api_view(['GET'])
