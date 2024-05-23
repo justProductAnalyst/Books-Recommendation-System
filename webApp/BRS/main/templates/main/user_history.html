@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <title>User's Reading History</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="{% static 'main/css/main.css' %}"/>
     <style>
         body {
             background-color: #FCFCFC;
@@ -40,6 +41,82 @@
         .book .text-wrapper-4 {
             margin-top: 10px;
             font-size: 14px;
+        }
+        .header {
+            background-color: #2f394d;
+            color: white;
+            padding: 10px 0;
+        }
+
+        .header a {
+            color: white;
+            margin-right: 15px;
+        }
+
+        .header .navbar-brand img {
+            height: 40px;
+            margin-right: 10px;
+            border-radius: 10px;
+        }
+
+        .book-card {
+            background-color: #ffffff;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            margin-bottom: 20px;
+            transition: transform 0.2s;
+        }
+
+        .book-card:hover {
+            transform: scale(1.05);
+        }
+
+        .book-card img {
+            max-width: 100%;
+            border-radius: 5px;
+            margin-bottom: 15px;
+            width: 100%;
+            height: 300px;
+            object-fit: scale-down;
+        }
+
+        .book-card h3 {
+            font-size: 1.25rem;
+            color: #343a40;
+        }
+
+        .book-card p {
+            color: #6c757d;
+        }
+
+        .btn-primary {
+            background-color: #2f394d;
+            border-color: #2f394d;
+        }
+
+        .btn-primary:hover {
+            background-color: #cfd7b0;
+            border-color: #cfd7b0;
+            color: #2f394d;
+        }
+
+        .main-content {
+            padding: 50px 0;
+        }
+
+        .title {
+            color: #2f394d;
+            margin-bottom: 30px;
+        }
+
+        .btn-login {
+            background-color: #2C394F;
+            color: white;
+            display: block;
+            margin-left: 20%;
+            margin-right: 20%;
+            margin-top: 3rem;
         }
     </style>
 </head>
@@ -105,29 +182,37 @@
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 <script>
-    function updateCarousel(books) {
+    function updateCarousel(books, id) {
         let carousel = document.getElementById('books');
         carousel.innerHTML = '';
 
         books.forEach(book => {
             let bookDiv = document.createElement('div');
-            bookDiv.className = 'book col-md-3';
+            bookDiv.className = 'col-md-4 col-lg-3';
 
-            let rectangleDiv = document.createElement('div');
-            rectangleDiv.className = 'rectangle-3';
+            let cardDiv = document.createElement('div');
+            cardDiv.className = 'book-card';
 
             let img = document.createElement('img');
             img.className = 'book-img';
             img.src = decodeURIComponent(book['image_l'].substring(1)).replace('http:/', 'http://');
-            img.style.borderRadius = '10px'; // Rounded edges for the book images
-            rectangleDiv.appendChild(img);
 
-            let titleDiv = document.createElement('div');
-            titleDiv.className = 'text-wrapper-4';
+            let titleDiv = document.createElement('h3');
             titleDiv.textContent = book['title'];
 
-            bookDiv.appendChild(rectangleDiv);
-            bookDiv.appendChild(titleDiv);
+            let authorDiv = document.createElement('p');
+            authorDiv.textContent = book['author'];
+
+            let readMoreLink = document.createElement('a');
+            readMoreLink.href = `/book/${book['book_id']}`;
+            readMoreLink.className = 'btn btn-primary btn-sm';
+            readMoreLink.textContent = 'Read More';
+
+            cardDiv.appendChild(img);
+            cardDiv.appendChild(titleDiv);
+            cardDiv.appendChild(authorDiv);
+            cardDiv.appendChild(readMoreLink);
+            bookDiv.appendChild(cardDiv);
 
             carousel.appendChild(bookDiv);
         });
@@ -135,7 +220,6 @@
 
     document.addEventListener('DOMContentLoaded', function() {
         const pathArray = window.location.pathname.split('/');
-        const userId = pathArray[1];
 
         fetch(`/api/history/${userId}`)
         .then(response => response.json())
@@ -146,7 +230,7 @@
             const username = data.username;
 
             // Обновляем карусель с популярными книгами
-            updateCarousel(books, "Popular");
+            updateCarousel(books);
 
             // Обновляем информацию о пользователе на странице
         updateUserInformation(user_id, username);
@@ -166,7 +250,7 @@
             }
         });
 }
+var userId = "{{ user_id }}";
 </script>
 </body>
 </html>
-

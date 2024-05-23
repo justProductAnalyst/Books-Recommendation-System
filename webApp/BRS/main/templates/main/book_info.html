@@ -91,6 +91,18 @@
             background-color: #cfd7b0;
             color: #2f394d;
         }
+        .btn-primary {
+            background-color: #2f394d;
+            border-color: #2f394d;
+            margin-top: 10%;
+            display: block;
+        }
+
+        .btn-primary:hover {
+            background-color: #cfd7b0;
+            border-color: #cfd7b0;
+            color: #2f394d;
+        }
     </style>
 </head>
 <body>
@@ -130,6 +142,12 @@
     <div class="row book-container">
         <div class="col-md-4 book-image">
             <img src="{{ book.image_l }}" alt="Book Image">
+            <!-- Форма для оценки книги -->
+            {% if request.user.is_authenticated %}
+                <a class="btn btn-primary" href="{% url 'rate_book' book_id=book.book_id %}">Rate</a>
+            {% else %}
+                <a class="btn btn-primary" href="{% url 'login' %}">Login to rate</a>
+            {% endif %}
         </div>
         <div class="col-md-8 book-info">
             <h1>{{ book.title }}</h1>
@@ -141,12 +159,6 @@
             <h2>Summary:</h2>
             <p>{{ book_texts.summary }}</p>
         </div>
-        <!-- Форма для оценки книги -->
-        {% if request.user.is_authenticated %}
-            <a class="btn btn-primary" href="{% url 'rate_book' book_id=book.book_id %}">Rate</a>
-        {% else %}
-            <a class="btn btn-primary" href="{% url 'login' %}">Login to rate</a>
-        {% endif %}
         </div>
 
     <div class="reviews mt-5">

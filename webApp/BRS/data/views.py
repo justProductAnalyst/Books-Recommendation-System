@@ -45,6 +45,7 @@ def api_book_info(request, book_id):
 @api_view(['GET'])
 def api_get_recommendations(request, user_id):
     raw = rec_sys.get_recommendations(user_id, n=10)
+    print(raw)
     recommendations = [get_book_info_by_book_id(book_id) for book_id in raw]
     return Response(recommendations)  # Возвращаем сериализованные данные в ответе на запрос
 
