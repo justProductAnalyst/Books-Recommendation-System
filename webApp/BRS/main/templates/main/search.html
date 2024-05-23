@@ -3,111 +3,127 @@
 <html lang="en">
 <head>
     <title>Search</title>
-    <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-
-    <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link rel="stylesheet" href="{% static 'main/css/main.css' %}"/>
 
     <style>
         body {
-          background-color: #FCFCFC;
-          font-family: 'Arial', sans-serif;
+            background-color: #FCFCFC;
+            font-family: 'Arial', sans-serif;
         }
+
         .header {
-          background-color: #2f394d;
-          color: white;
-          padding: 10px 0;
+            background-color: #2f394d;
+            color: white;
+            padding: 10px 0;
         }
+
         .header a {
-          color: white;
-          margin-right: 15px;
+            color: white;
+            margin-right: 15px;
         }
+
         .header .navbar-brand img {
-          height: 40px;
-          margin-right: 10px;
-          border-radius: 10px;
+            height: 40px;
+            margin-right: 10px;
+            border-radius: 10px;
         }
+
         .search-container {
-          margin-top: 50px;
+            margin-top: 50px;
         }
+
         .search-container form {
-          display: flex;
-          justify-content: center;
-          margin-bottom: 30px;
+            display: flex;
+            justify-content: center;
+            margin-bottom: 30px;
         }
+
         .search-container input[type="text"] {
-          width: 500px; /* Increased width */
-          border-radius: 20px 0 0 20px;
-          padding: 15px; /* Increased padding */
-          border: 1px solid #ced4da;
-          margin-right: -1px;
-          !important;height: unset;
+            width: 500px;
+            border-radius: 20px 0 0 20px;
+            padding: 15px;
+            border: 1px solid #ced4da;
+            margin-right: -1px;
+        !important;
+            height: unset;
         }
+
         .search-container button {
-          border-radius: 0 20px 20px 0;
-          padding: 15px 20px; /* Increased padding */
-          background-color: #2f394d;
-          border: 1px solid #2f394d;
-          color: white;
+            border-radius: 0 20px 20px 0;
+            padding: 15px 20px;
+            background-color: #2f394d;
+            border: 1px solid #2f394d;
+            color: white;
         }
+
         .search-container button:hover {
-          background-color: #cfd7b0;
-          border-color: #cfd7b0;
-          color: #2f394d;
+            background-color: #cfd7b0;
+            border-color: #cfd7b0;
+            color: #2f394d;
         }
+
         .book-card {
-          background-color: #ffffff;
-          border-radius: 10px;
-          box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-          padding: 20px;
-          margin-bottom: 20px;
-          transition: transform 0.2s;
+            background-color: #ffffff;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            margin-bottom: 20px;
+            transition: transform 0.2s;
         }
+
         .book-card:hover {
-          transform: scale(1.05);
+            transform: scale(1.05);
         }
+
         .book-card img {
-          max-width: 100%;
-          border-radius: 5px;
-          margin-bottom: 15px;
-          width: 100%;
-          height: 300px; /* Reduced height */
-      object-fit: scale-down; /* Ensure the image covers the area without stretching */
+            max-width: 100%;
+            border-radius: 5px;
+            margin-bottom: 15px;
+            width: 100%;
+            height: 300px;
+            object-fit: scale-down;
         }
+
         .book-card h3 {
-          font-size: 1.25rem; /* Reduced font size */
-          color: #343a40;
+            font-size: 1.25rem;
+            color: #343a40;
         }
+
         .book-card p {
-          color: #6c757d;
+            color: #6c757d;
         }
+
         .btn-primary {
-          background-color: #2f394d;
-          border-color: #2f394d;
+            background-color: #2f394d;
+            border-color: #2f394d;
         }
+
         .btn-primary:hover {
-          background-color: #cfd7b0;
-          border-color: #cfd7b0;
-          color: #2f394d;
+            background-color: #cfd7b0;
+            border-color: #cfd7b0;
+            color: #2f394d;
         }
+
         .main-content {
-          padding: 50px 0;
+            padding: 50px 0;
         }
+
         .title {
-          color: #2f394d;
-          margin-bottom: 30px;
+            color: #2f394d;
+            margin-bottom: 30px;
         }
     </style>
 </head>
 <body>
 <nav class="navbar navbar-expand-lg navbar-dark header">
-    <div class="container">
-        <a class="navbar-brand d-flex align-items-center" href="#">
-            <img src="{% static 'main/assets/logo.png' %}" alt="Logo">
-            <span><a href="/">Books Recommendation System</a></span>
+        <div class="container">
+            <a class="navbar-brand d-flex align-items-center" href="/">
+                <img src="{% static 'main/assets/logo.png' %}" alt="Logo">
+                <span>Books Recommendation System</span>
+            </a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
                     aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
@@ -115,14 +131,14 @@
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ml-auto">
                     <li class="nav-item">
-                    <a class="nav-link"
-                       href="{% if request.user.is_authenticated %} {% url 'home' %}{% else %}{% url 'login' %}{% endif %}">Recommended</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link"
-                       href="{% if request.user.is_authenticated %} {% url 'history' %}{% else %}{% url 'login' %}{% endif %}">Reading
-                        History</a>
-                </li>
+                        <a class="nav-link"
+                        href="{% if request.user.is_authenticated %} {% url 'home' %}{% else %}{% url 'login' %}{% endif %}">Recommended</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link"
+                        href="{% if request.user.is_authenticated %} {% url 'history' %}{% else %}{% url 'login' %}{% endif %}">Reading
+                            History</a>
+                    </li>
                     <li class="nav-item"><a class="nav-link" href="/search">Search</a></li>
                     <li class="nav-item">
                     {% if request.user.is_authenticated %}
@@ -139,8 +155,8 @@
                 </li>
                 </ul>
             </div>
-    </div>
-</nav>
+        </div>
+    </nav>
 
 <div class="container main-content">
     <div class="search-container text-center">
@@ -168,8 +184,6 @@
     </div>
 </div>
 
-<!-- Optional JavaScript -->
-<!-- jQuery first, then Popper.js, then Bootstrap JS -->
 <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
         integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
         crossorigin="anonymous"></script>
@@ -181,12 +195,12 @@
         crossorigin="anonymous"></script>
 <script>
     function checkImage(img) {
-      const minWidth = 100; // Minimum acceptable width
-      const minHeight = 100; // Minimum acceptable height
+        const minWidth = 100;
+        const minHeight = 100;
 
-      if (img.naturalWidth < minWidth || img.naturalHeight < minHeight) {
-        img.src = '{% static "images/placeholder.png" %}';
-      }
+        if (img.naturalWidth < minWidth || img.naturalHeight < minHeight) {
+            img.src = '{% static "images/placeholder.png" %}';
+        }
     }
 </script>
 </body>

@@ -4,64 +4,76 @@
 <head>
     <meta charset="UTF-8">
     <title>Book Info</title>
-    <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <style>
         body {
             background-color: #FCFCFC;
         }
+
         .header {
             background-color: #2f394d;
             color: white;
             padding: 10px 0;
         }
+
         .header a {
             color: white;
             margin-right: 15px;
         }
+
         .header .navbar-brand img {
             height: 40px;
             margin-right: 10px;
             border-radius: 10px;
         }
+
         .book-container {
             display: flex;
             margin-top: 30px;
             align-items: flex-start;
         }
+
         .book-image img {
             max-width: 100%;
             border-radius: 10px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
         }
+
         .book-info {
             margin-left: 30px;
             flex: 1;
         }
+
         .book-info h1 {
             font-size: 2.5rem;
             color: #343a40;
         }
+
         .book-info p {
             font-size: 1.2rem;
             color: #6c757d;
         }
+
         .book-info h2 {
             margin-top: 20px;
             font-size: 1.75rem;
             color: #343a40;
         }
+
         .reviews {
             margin-top: 40px;
         }
+
         .reviews h2 {
             font-size: 2rem;
             color: #343a40;
         }
+
         .reviews ul {
             list-style-type: none;
             padding: 0;
         }
+
         .reviews li {
             background: #f8f9fa;
             padding: 10px;
@@ -69,10 +81,12 @@
             border-radius: 5px;
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
         }
+
         .btn-outline-light {
             border-color: #cfd7b0;
             color: #cfd7b0;
         }
+
         .btn-outline-light:hover {
             background-color: #cfd7b0;
             color: #2f394d;
@@ -86,7 +100,8 @@
             <img src="{% static 'main/assets/logo.png' %}" alt="Logo">
             <span>Books Recommendation System</span>
         </a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarNav">
@@ -138,14 +153,11 @@
         <h2>Reviews:</h2>
         <ul>
             {% for review in reviews %}
-                <li>{{ review.review }}</li>
+            <li>{{ review.review }}</li>
             {% endfor %}
         </ul>
     </div>
 </div>
-
-<!-- Optional JavaScript -->
-<!-- jQuery first, then Popper.js, then Bootstrap JS -->
 <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>

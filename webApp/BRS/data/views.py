@@ -111,3 +111,4 @@ def api_search_books(request):
         for book in books
     ]
     return JsonResponse(data, safe=False)
+
