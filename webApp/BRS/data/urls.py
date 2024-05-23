@@ -7,5 +7,6 @@ urlpatterns = [
     path('recommendations/', views.api_get_recommendations, name='data'),
     path('history/', views.api_get_user_history, name='data'),
     path('popular/', views.api_get_popular_books, name='data'),
+    path('search/', views.api_search_books, name='data'),
     #path('import-csv/', import_csv, name='import_csv'),
 ]

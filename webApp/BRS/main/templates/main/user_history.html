@@ -9,38 +9,75 @@
         body {
             background-color: #FCFCFC;
         }
+        /* static/css/styles.css */
         .header {
             background-color: #2f394d;
             color: white;
             padding: 10px 0;
         }
+
         .header a {
             color: white;
             margin-right: 15px;
         }
+
         .header .navbar-brand img {
             height: 40px;
             margin-right: 10px;
             border-radius: 10px;
         }
-        .book {
-            margin: 15px;
-            text-align: center;
-        }
-        .book .rectangle-3 {
-            width: 150px;
-            height: 200px;
-            background-color: #ddd;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+
+        .book-card {
+            background-color: #ffffff;
             border-radius: 10px;
-            margin-top: 2in; /* Добавленный отступ сверху */
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            margin-bottom: 20px;
+            transition: transform 0.2s;
         }
-        .book .text-wrapper-4 {
-            margin-top: 10px;
-            font-size: 14px;
+
+        .book-card:hover {
+            transform: scale(1.05);
         }
+
+        .book-card img {
+            max-width: 100%;
+            border-radius: 5px;
+            margin-bottom: 15px;
+            width: 100%;
+            height: 300px;
+            object-fit: scale-down;
+        }
+
+        .book-card h3 {
+            font-size: 1.25rem;
+            color: #343a40;
+        }
+
+        .book-card p {
+            color: #6c757d;
+        }
+
+        .btn-primary {
+            background-color: #2f394d;
+            border-color: #2f394d;
+        }
+
+        .btn-primary:hover {
+            background-color: #cfd7b0;
+            border-color: #cfd7b0;
+            color: #2f394d;
+        }
+
+        .main-content {
+            padding: 50px 0;
+        }
+
+        .title {
+            color: #2f394d;
+            margin-bottom: 30px;
+        }
+
     </style>
 </head>
 <body>
@@ -65,16 +102,18 @@
                        href="{% if request.user.is_authenticated %} {% url 'history' %}{% else %}{% url 'login' %}{% endif %}">Reading
                         History</a>
                 </li>
+                <li class="nav-item"><a class="nav-link" href="/search">Search</a></li>
                 <li class="nav-item">
-                    <a class="btn btn-outline-light" href="/login">
+                    {% if request.user.is_authenticated %}
+                    <a class="nav-link" href="{% url 'logout' %}">Logout</a>
+                    {% else %}
+                    <a class="btn btn-outline-light" href="{% url 'login' %}">
                         <img src="{% static 'main/assets/user%201.svg' %}" alt="User Icon" style="height: 20px;">
-                        <span class="user-info">
                         {% if request.user.is_authenticated %} {{ request.user.username }}
                         {% else %}
-                            Log in
+                        Log in
                         {% endif %}
-                        </span>
-                    </a>
+                        {% endif %}
                 </li>
             </ul>
         </div>
@@ -111,23 +150,31 @@
 
         books.forEach(book => {
             let bookDiv = document.createElement('div');
-            bookDiv.className = 'book col-md-3';
+            bookDiv.className = 'col-md-6 col-lg-4';
 
-            let rectangleDiv = document.createElement('div');
-            rectangleDiv.className = 'rectangle-3';
+            let cardDiv = document.createElement('div');
+            cardDiv.className = 'book-card';
 
             let img = document.createElement('img');
             img.className = 'book-img';
             img.src = decodeURIComponent(book['image_l'].substring(1)).replace('http:/', 'http://');
-            img.style.borderRadius = '10px'; // Rounded edges for the book images
-            rectangleDiv.appendChild(img);
 
-            let titleDiv = document.createElement('div');
-            titleDiv.className = 'text-wrapper-4';
+            let titleDiv = document.createElement('h3');
             titleDiv.textContent = book['title'];
 
-            bookDiv.appendChild(rectangleDiv);
-            bookDiv.appendChild(titleDiv);
+            let authorDiv = document.createElement('p');
+            authorDiv.textContent = book['author'];
+
+            let readMoreLink = document.createElement('a');
+            readMoreLink.href = `/book/${book['book_id']}`;
+            readMoreLink.className = 'btn btn-primary btn-sm';
+            readMoreLink.textContent = 'Read More';
+
+            cardDiv.appendChild(img);
+            cardDiv.appendChild(titleDiv);
+            cardDiv.appendChild(authorDiv);
+            cardDiv.appendChild(readMoreLink);
+            bookDiv.appendChild(cardDiv);
 
             carousel.appendChild(bookDiv);
         });
@@ -137,7 +184,7 @@
         const pathArray = window.location.pathname.split('/');
         const userId = pathArray[1];
 
-        fetch(`/api/history/${userId}`)
+        fetch(`/api/history/`)
         .then(response => response.json())
         .then(data => {
             // Получаем данные о популярных книгах, user_id и username из ответа API
