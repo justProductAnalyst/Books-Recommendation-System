@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>User's Reading History</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="{% static 'main/css/main.css' %}"/>
+    <style>
+        body {
+            background-color: #FCFCFC;
+        }
+        /* static/css/styles.css */
+        .header {
+            background-color: #2f394d;
+            color: white;
+            padding: 10px 0;
+        }
+
+        .header a {
+            color: white;
+            margin-right: 15px;
+        }
+
+        .header .navbar-brand img {
+            height: 40px;
+            margin-right: 10px;
+            border-radius: 10px;
+        }
+
+        .book-card {
+            background-color: #ffffff;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            margin-bottom: 20px;
+            transition: transform 0.2s;
+        }
+
+        .book-card:hover {
+            transform: scale(1.05);
+        }
+        .header {
+            background-color: #2f394d;
+            color: white;
+            padding: 10px 0;
+        }
+
+        .header a {
+            color: white;
+            margin-right: 15px;
+        }
+
+        .header .navbar-brand img {
+            height: 40px;
+            margin-right: 10px;
+            border-radius: 10px;
+        }
+
+        .book-card {
+            background-color: #ffffff;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            margin-bottom: 20px;
+            transition: transform 0.2s;
+        }
+
+        .book-card:hover {
+            transform: scale(1.05);
+        }
+
+        .book-card img {
+            max-width: 100%;
+            border-radius: 5px;
+            margin-bottom: 15px;
+            width: 100%;
+            height: 300px;
+            object-fit: scale-down;
+        }
+
+        .book-card h3 {
+            font-size: 1.25rem;
+            color: #343a40;
+        }
+
+        .book-card p {
+            color: #6c757d;
+        }
+
+        .btn-primary {
+            background-color: #2f394d;
+            border-color: #2f394d;
+        }
+
+        .btn-primary:hover {
+            background-color: #cfd7b0;
+            border-color: #cfd7b0;
+            color: #2f394d;
+        }
+
+        .main-content {
+            padding: 50px 0;
+        }
+
+        .title {
+            color: #2f394d;
+            margin-bottom: 30px;
+        }
+
+        .btn-login {
+            background-color: #2C394F;
+            color: white;
+            display: block;
+            margin-left: 20%;
+            margin-right: 20%;
+            margin-top: 3rem;
+        }
+    </style>
+</head>
+<body>
+<nav class="navbar navbar-expand-lg navbar-dark header">
+    <div class="container">
+        <a class="navbar-brand d-flex align-items-center" href="/">
+            <img src="{% static 'main/assets/logo.png' %}" alt="Logo">
+            <span>Books Recommendation System</span>
+        </a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                    <a class="nav-link"
+                       href="{% if request.user.is_authenticated %} {% url 'home' %}{% else %}{% url 'login' %}{% endif %}">Recommended</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link"
+                       href="{% if request.user.is_authenticated %} {% url 'history' %}{% else %}{% url 'login' %}{% endif %}">Reading
+                        History</a>
+                </li>
+                <li class="nav-item"><a class="nav-link" href="/search">Search</a></li>
+                <li class="nav-item">
+                    {% if request.user.is_authenticated %}
+                    <a class="nav-link" href="{% url 'logout' %}">Logout</a>
+                    {% else %}
+                    <a class="btn btn-outline-light" href="{% url 'login' %}">
+                        <img src="{% static 'main/assets/user%201.svg' %}" alt="User Icon" style="height: 20px;">
+                        {% if request.user.is_authenticated %} {{ request.user.username }}
+                        {% else %}
+                        Log in
+                        {% endif %}
+                        {% endif %}
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+<div class="container mt-5">
+    <div class="row">
+        <div class="col text-center">
+            <h1>Reading History of
+                <span class="user-info">
+                        {% if request.user.is_authenticated %} {{ request.user.username }}
+                        {% else %}
+                            Log in
+                        {% endif %}
+                </span>
+            </h1>
+        </div>
+    </div>
+    <div class="row d-flex flex-wrap justify-content-center mt-4" id="books" style="margin-top: 10in;">
+        <div style="height: 2in;"></div>
+        <!-- Books will be dynamically added here -->
+    </div>
+</div>
+
+<!-- Optional JavaScript -->
+<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<script>
+    function updateCarousel(books, id) {
+        let carousel = document.getElementById('books');
+        carousel.innerHTML = '';
+
+        books.forEach(book => {
+            let bookDiv = document.createElement('div');
+            bookDiv.className = 'col-md-4 col-lg-3';
+
+            let cardDiv = document.createElement('div');
+            cardDiv.className = 'book-card';
+
+            let img = document.createElement('img');
+            img.className = 'book-img';
+            img.src = decodeURIComponent(book['image_l'].substring(1)).replace('http:/', 'http://');
+
+            let titleDiv = document.createElement('h3');
+            titleDiv.textContent = book['title'];
+
+            let authorDiv = document.createElement('p');
+            authorDiv.textContent = book['author'];
+
+            let readMoreLink = document.createElement('a');
+            readMoreLink.href = `/book/${book['book_id']}`;
+            readMoreLink.className = 'btn btn-primary btn-sm';
+            readMoreLink.textContent = 'Read More';
+
+            cardDiv.appendChild(img);
+            cardDiv.appendChild(titleDiv);
+            cardDiv.appendChild(authorDiv);
+            cardDiv.appendChild(readMoreLink);
+            bookDiv.appendChild(cardDiv);
+
+            carousel.appendChild(bookDiv);
+        });
+    }
+
+    document.addEventListener('DOMContentLoaded', function() {
+        const pathArray = window.location.pathname.split('/');
+
+        fetch(`/api/history/`)
+        .then(response => response.json())
+        .then(data => {
+            // Получаем данные о популярных книгах, user_id и username из ответа API
+            const books = data.user_history;
+            const user_id = data.user_id;
+            const username = data.username;
+
+            // Обновляем карусель с популярными книгами
+            updateCarousel(books);
+
+            // Обновляем информацию о пользователе на странице
+        updateUserInformation(user_id, username);
+        })
+        .catch(error => console.error('Error:', error));
+    });
+
+
+    function updateUserInformation(user_id, username) {
+        // Обновляем информацию о пользователе на странице в двух местах
+        const userElements = document.querySelectorAll('.user-info');
+        userElements.forEach(element => {
+            if (user_id) {
+                element.textContent = username;
+            } else {
+                element.textContent = 'Log in';
+            }
+        });
+}
+var userId = "{{ user_id }}";
+</script>
+</body>
+</html>
