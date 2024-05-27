@@ -23,9 +23,13 @@ rec_sys = RecSys()
 
 
 def get_book_info_by_book_id(book_id):
-    book = Book.objects.filter(book_id=book_id)  # Фильтруем записи по isbn
-    serialiser = DataSerializer(book, many=True)  # Используем сериализатор для преобразования данных
-    return serialiser.data[0]
+    book = Book.objects.filter(book_id=book_id).first()  # Получаем первую книгу или None, если книга не найдена
+    if book:
+        serialiser = DataSerializer(book)  # Используем сериализатор для преобразования данных
+        return serialiser.data
+    else:
+        return {}
+
 
 
 def api_book_info(request, book_id):
@@ -43,7 +47,8 @@ def api_book_info(request, book_id):
 
 
 @api_view(['GET'])
-def api_get_recommendations(request, user_id):
+def api_get_recommendations(request):
+    user_id = request.user.user_id
     raw = rec_sys.get_recommendations(user_id, n=10)
     print(raw)
     recommendations = [get_book_info_by_book_id(book_id) for book_id in raw]
@@ -51,9 +56,9 @@ def api_get_recommendations(request, user_id):
 
 
 @api_view(['GET'])
-def api_get_user_history(request, user_id):
-    user = get_user_model().objects.get(user_id=user_id)
-    username = user.username
+def api_get_user_history(request):
+    user_id = request.user.user_id
+    username = request.user.username
     raw = rec_sys.get_user_history(user_id, n=10)
     user_history = [get_book_info_by_book_id(book_id) for book_id in raw]
     response_data = {
@@ -69,3 +74,42 @@ def api_get_popular_books(request):
     raw = rec_sys.get_popular_books(n=10)
     user_history = [get_book_info_by_book_id(book_id) for book_id in raw]
     return Response(user_history)  # Возвращаем сериализованные данные в ответе на запрос
+
+
+'''@api_view(['GET'])
+def api_search_books(request):
+    # Выбираем все книги из базы данных
+    books = Book.objects.all()
+
+    # Преобразуем объекты книг в словари
+    data = []
+    for book in books:
+        data.append({
+            'book_id': book.book_id,
+            'title': book.title,
+            'image_s': book.image_s.url if book.image_s else None,
+            'image_m': book.image_m.url if book.image_m else None,
+            'image_l': book.image_l.url if book.image_l else None,
+            'genre': book.genre,
+            'author': book.author,
+            'year_of_1st_publication': book.year_of_1st_publication
+        })
+
+    # Возвращаем JSON ответ
+    return JsonResponse({'books': data})
+'''
+
+@api_view(['GET'])
+def api_search_books(request):
+    query = request.GET.get('q', '')
+    books = Book.objects.filter(title__icontains=query)[:100]  # Ограничим до 100 книг
+    data = [
+        {
+            'book_id': book.book_id,
+            'title': book.title,
+            'author': book.author,
+        }
+        for book in books
+    ]
+    return JsonResponse(data, safe=False)
+

@@ -29,6 +29,7 @@ ALLOWED_HOSTS = []
 
 AUTH_USER_MODEL = 'main.User'
 
+LOGOUT_REDIRECT_URL = '/'
 
 # Application definition
 

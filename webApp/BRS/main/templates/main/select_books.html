@@ -1,0 +1,93 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css" rel="stylesheet">
+    <title>Выбор книг</title>
+</head>
+<body>
+    <div class="container mt-5">
+        <h2>Choose 3 Books and rate them</h2>
+        <form id="book-selection-form" method="post">
+            {% csrf_token %}
+        <div class="form-group">
+            <label for="book1">Book 1</label>
+            <select id="book1" name="book1" class="form-control select2"></select>
+            <label for="rating1">Rating 1</label>
+            <select id="rating1" name="rating1" class="form-control">
+                {% for value, label in form.fields.rating1.choices %}
+                    <option value="{{ value }}">{{ label }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="book2">Book 2</label>
+            <select id="book2" name="book2" class="form-control select2"></select>
+            <label for="rating2">Rating 2</label>
+            <select id="rating2" name="rating2" class="form-control">
+                {% for value, label in form.fields.rating2.choices %}
+                    <option value="{{ value }}">{{ label }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="book3">Book 3</label>
+            <select id="book3" name="book3" class="form-control select2"></select>
+            <label for="rating3">Rating 3</label>
+            <select id="rating3" name="rating3" class="form-control">
+                {% for value, label in form.fields.rating3.choices %}
+                    <option value="{{ value }}">{{ label }}</option>
+                {% endfor %}
+            </select>
+        </div>
+            <button type="submit" class="btn btn-primary">Сохранить</button>
+        </form>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            function formatBook(book) {
+                return `${book.title} by ${book.author}`;
+            }
+
+            function formatBookSelection(book) {
+                return book.title || book.text;
+            }
+
+            $('.select2').select2({
+                ajax: {
+                    url: '/api/search/',
+                    dataType: 'json',
+                    delay: 250,
+                    data: function (params) {
+                        return {
+                            q: params.term, // search term
+                        };
+                    },
+                    processResults: function (data) {
+                        return {
+                            results: data.map(book => ({
+                                id: book.book_id,
+                                text: book.title,
+                                title: book.title,
+                                author: book.author,
+                            }))
+                        };
+                    },
+                    cache: true
+                },
+                templateResult: formatBook,
+                templateSelection: formatBookSelection,
+                minimumInputLength: 1,
+                placeholder: 'Choose the Book',
+                allowClear: true
+            });
+        });
+    </script>
+</body>
+</html>

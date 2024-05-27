@@ -10,37 +10,35 @@
         body {
             background-color: #FCFCFC;
         }
+        /* static/css/styles.css */
         .header {
             background-color: #2f394d;
             color: white;
             padding: 10px 0;
         }
+
         .header a {
             color: white;
             margin-right: 15px;
         }
+
         .header .navbar-brand img {
             height: 40px;
             margin-right: 10px;
             border-radius: 10px;
         }
-        .book {
-            margin: 15px;
-            text-align: center;
-        }
-        .book .rectangle-3 {
-            width: 150px;
-            height: 200px;
-            background-color: #ddd;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+
+        .book-card {
+            background-color: #ffffff;
             border-radius: 10px;
-            margin-top: 2in; /* Добавленный отступ сверху */
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            margin-bottom: 20px;
+            transition: transform 0.2s;
         }
-        .book .text-wrapper-4 {
-            margin-top: 10px;
-            font-size: 14px;
+
+        .book-card:hover {
+            transform: scale(1.05);
         }
         .header {
             background-color: #2f394d;
@@ -142,16 +140,18 @@
                        href="{% if request.user.is_authenticated %} {% url 'history' %}{% else %}{% url 'login' %}{% endif %}">Reading
                         History</a>
                 </li>
+                <li class="nav-item"><a class="nav-link" href="/search">Search</a></li>
                 <li class="nav-item">
-                    <a class="btn btn-outline-light" href="/login">
+                    {% if request.user.is_authenticated %}
+                    <a class="nav-link" href="{% url 'logout' %}">Logout</a>
+                    {% else %}
+                    <a class="btn btn-outline-light" href="{% url 'login' %}">
                         <img src="{% static 'main/assets/user%201.svg' %}" alt="User Icon" style="height: 20px;">
-                        <span class="user-info">
                         {% if request.user.is_authenticated %} {{ request.user.username }}
                         {% else %}
-                            Log in
+                        Log in
                         {% endif %}
-                        </span>
-                    </a>
+                        {% endif %}
                 </li>
             </ul>
         </div>
@@ -221,7 +221,7 @@
     document.addEventListener('DOMContentLoaded', function() {
         const pathArray = window.location.pathname.split('/');
 
-        fetch(`/api/history/${userId}`)
+        fetch(`/api/history/`)
         .then(response => response.json())
         .then(data => {
             // Получаем данные о популярных книгах, user_id и username из ответа API

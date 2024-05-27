@@ -1,14 +1,13 @@
+from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
 from django.shortcuts import render, redirect, get_object_or_404  # render нужен для вывода html шаблона
 from django.views.decorators.csrf import csrf_protect
 from django.views.generic import ListView, DetailView
 
-from .forms import CustomUserCreationForm, SearchForm, RatingForm
+from .forms import CustomUserCreationForm, SearchForm, RatingForm, BookSelectionForm
 from django.contrib.auth import authenticate, login, get_user_model
-from django.urls import reverse
 from django.contrib import messages
 from data.models import Book, BookTexts, UserBook
-from .models import User
 from .forms import CustomUserCreationForm
 
 
@@ -40,7 +39,9 @@ def register(request):
             user.set_password(form.cleaned_data['password'])  # Хэшируем пароль
             user.save()  # Теперь сохраняем пользователя с хэшированным паролем
             # Дополнительные действия после успешной регистрации
-            return redirect('home')
+            user = authenticate(username=form.cleaned_data['username'], password=form.cleaned_data['password'])
+            login(request, user)
+            return redirect('choose_books')  # Перенаправляем на страницу выбора книг
     else:
         form = CustomUserCreationForm()
     return render(request, 'main/register.html', {'form': form})
@@ -97,7 +98,8 @@ def rate_book(request, book_id):
             rating = form.cleaned_data['rating']
             user_id = request.user.user_id  # Получаем ID пользователя
             # Сохраняем оценку книги в базе данных
-            user_book, created = UserBook.objects.get_or_create(book_id=book_id, user_id=user_id, defaults={'rating': rating})
+            user_book, created = UserBook.objects.get_or_create(book_id=book_id, user_id=user_id,
+                                                                defaults={'rating': rating})
             user_book.rating = rating
             user_book.save()
             # Перенаправляем пользователя на страницу с деталями книги
@@ -106,3 +108,32 @@ def rate_book(request, book_id):
         form = RatingForm()
 
     return render(request, 'main/rate_book.html', {'book': book, 'form': form})
+
+
+@login_required
+def select_books(request):
+    if request.method == 'POST':
+        form = BookSelectionForm(request.POST)
+        if form.is_valid():
+            # Обработка выбранных книг
+            # selected_books = form.cleaned_data['books']
+            book1_name = form.cleaned_data['book1']
+            book2_name = form.cleaned_data['book2']
+            book3_name = form.cleaned_data['book3']
+
+            # Выполните поиск книг по введенным названиям
+            book1 = Book.objects.filter(book_id=book1_name).first()
+            book2 = Book.objects.filter(book_id=book2_name).first()
+            book3 = Book.objects.filter(book_id=book3_name).first()
+            rating1 = form.cleaned_data['rating1']
+            rating2 = form.cleaned_data['rating2']
+            rating3 = form.cleaned_data['rating3']
+            selected_books = [book1, book2, book3]
+            user_id = request.user.user_id
+            UserBook.objects.create(book_id=book1.book_id, user_id=user_id, rating=float(rating1))
+            UserBook.objects.create(book_id=book2.book_id, user_id=user_id, rating=float(rating2))
+            UserBook.objects.create(book_id=book3.book_id, user_id=user_id, rating=float(rating3))
+            return redirect('home')
+    else:
+        form = BookSelectionForm()
+    return render(request, 'main/select_books.html', {'form': form})
