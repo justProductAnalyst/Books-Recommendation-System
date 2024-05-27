@@ -135,7 +135,7 @@ class RecSys:
             author as book_author,
             year_of_1st_publication as year_of_publication,
             genre as category,
-            rating
+            rating as book_rating
         FROM user_interactions ub
         LEFT JOIN user_data mu on ub.user_id = mu.user_id
         LEFt JOIN data_book db on ub.book_id = db.book_id
@@ -154,7 +154,7 @@ class RecSys:
         data['book_id'] = self.le.transform(data['book_id'])
 
         # дообучение book embeddings
-        self.embedding_model.fit(x=[data['user_id'], data['book_id']], y=data['rating'], batch_size=256, epochs=40,
+        self.embedding_model.fit(x=[data['user_id'], data['book_id']], y=data['book_rating'], batch_size=256, epochs=40,
                                  validation_split=0.1)
         embedded_user_output = self.embedding_model.get_layer("user_embedding").output
         embedded_user_input = self.embedding_model.get_layer("user").output
@@ -175,11 +175,16 @@ class RecSys:
         book_df = pd.DataFrame(book_feature)
         book_df = book_df.add_suffix('_book')
         data = data.drop(columns=['user_id', 'book_id'])
+        data = data.reset_index(drop=True)
+        user_df = user_df.reset_index(drop=True)
+        book_df = book_df.reset_index(drop=True)
         data = pd.concat([data, user_df, book_df], axis=1)
         X = data.drop(columns=['book_rating'])
         y = data['book_rating']
         cat_features = ['book_author', 'location', 'category']
+        X = X[self.main_model.feature_names_]
         self.main_model.fit(X, y, cat_features=cat_features, verbose=False, init_model=self.main_model)
+        print('Fit finished')
 
     def get_user_history(self, user_id, n=10):
         result = UserBook.objects.raw(f"""

@@ -10,8 +10,16 @@ from django.contrib import messages
 from data.models import Book, BookTexts, UserBook
 from .forms import CustomUserCreationForm
 
+import os, sys
+BRS_PATH = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', 'BRS'))
 
-# Create your views here.
+# Добавляем путь к папке 'BRS' в sys.path
+sys.path.append(BRS_PATH)
+
+# Теперь можно импортировать модуль 'recsys'
+from recsys import RecSys
+
+recsys = RecSys()
 
 
 def index(request, user_id=None):
@@ -87,9 +95,8 @@ class PostDetailView(DetailView):
     template_name = 'main/search_results.html'
 
 
+@login_required
 def rate_book(request, book_id):
-    if not request.user.is_authenticated:
-        return redirect('login')
     book = get_object_or_404(Book, book_id=book_id)
 
     if request.method == 'POST':
@@ -97,11 +104,19 @@ def rate_book(request, book_id):
         if form.is_valid():
             rating = form.cleaned_data['rating']
             user_id = request.user.user_id  # Получаем ID пользователя
+
             # Сохраняем оценку книги в базе данных
-            user_book, created = UserBook.objects.get_or_create(book_id=book_id, user_id=user_id,
-                                                                defaults={'rating': rating})
+            user_book, created = UserBook.objects.get_or_create(book_id=book_id, user_id=user_id, defaults={'rating': rating})
             user_book.rating = rating
             user_book.save()
+
+            # Check how many books the user has rated
+            user_rated_books_count = UserBook.objects.filter(user_id=user_id).count()
+
+            # Call add_fitting if the user has rated a multiple of 3 books
+            if user_rated_books_count % 3 == 0:
+                recsys.add_fitting(user_id)
+
             # Перенаправляем пользователя на страницу с деталями книги
             return redirect('post_detail', book_id=book.book_id)
     else:
