@@ -148,6 +148,10 @@ def select_books(request):
             UserBook.objects.create(book_id=book1.book_id, user_id=user_id, rating=float(rating1))
             UserBook.objects.create(book_id=book2.book_id, user_id=user_id, rating=float(rating2))
             UserBook.objects.create(book_id=book3.book_id, user_id=user_id, rating=float(rating3))
+
+            print('1')
+            recsys.add_fitting(user_id)
+
             return redirect('home')
     else:
         form = BookSelectionForm()
